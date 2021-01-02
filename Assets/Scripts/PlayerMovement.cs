@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
-{
+public class PlayerMovement : MonoBehaviour {
+    public float thresholdSpeed = 0.2f;
+    
     private Player _player;
     private Vector3 _movement;
     private Animator _animator;
@@ -27,7 +28,12 @@ public class PlayerMovement : MonoBehaviour
         
         _animator.SetFloat(Speed, _movement.sqrMagnitude);
 
-        _rigidBody.velocity = _movement.normalized * _player._stats.speed;
+        float speed = _player._stats.speed;
+        if (Mathf.Abs(speed) <= 0.0f) {
+            speed = thresholdSpeed;
+        }
+
+        _rigidBody.velocity = _movement.normalized * speed;
         _rigidBody.rotation = _weapon.transform.rotation;
     }
 
