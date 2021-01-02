@@ -34,7 +34,7 @@ public class Entity : MonoBehaviour
     
     void Die()
     {
-        Debug.Log("Died");
+        Debug.Log(name + " Died");
         Destroy(gameObject);
     }
     
