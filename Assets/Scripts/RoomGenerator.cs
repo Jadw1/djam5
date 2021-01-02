@@ -8,14 +8,12 @@ public class RoomGenerator : MonoBehaviour {
 
     [SerializeField] 
     private GameObject groundPrefab;
-
     [SerializeField] 
     private GameObject wallPrefab;
-    
+
     [SerializeField]
     [Min(3)]
     private int width;
-    
     [SerializeField]
     [Min(3)]
     private int height;
@@ -52,15 +50,13 @@ public class RoomGenerator : MonoBehaviour {
         ground = Instantiate(groundPrefab, transform);
         ground.transform.localScale = new Vector3(width, 1f, height);
         ground.transform.localPosition = new Vector3((float)width/2, 0f, (float)height/2);
-        ground.transform.parent = transform;
         ground.transform.name = "Ground";
         
         
         //0-left 1-right 2-bottom 3-top
         walls = new GameObject[4];
         for (int i = 0; i < walls.Length; i++) {
-            walls[i] = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            walls[i].transform.parent = transform;
+            walls[i] = Instantiate(wallPrefab, transform);
             walls[i].transform.name = $"Wall {i}";
         }
 
