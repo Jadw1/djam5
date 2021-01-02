@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,23 +17,23 @@ public class RoomGenerator : MonoBehaviour {
     private GameObject ground;
     private GameObject[] walls;
     
-    // Start is called before the first frame update
-    void Start() {
-        
-    }
-
-    private Vector3 GridToPosition(int x, int y, float height = 0f) {
-        return new Vector3(x + .5f, height, y + .5f);
-    }
 
     private void CleanRoom() {
+        Action<GameObject> destroyFunc;
+        if (Application.isEditor) {
+            destroyFunc = DestroyImmediate;
+        }
+        else {
+            destroyFunc = Destroy;
+        }
+        
         if (ground) {
-            Destroy(ground);
+            destroyFunc(ground);
         }
 
         if (walls != null) {
             foreach (var wall in walls) {
-                Destroy(wall);
+                destroyFunc(wall);
             }
 
             walls = null;
