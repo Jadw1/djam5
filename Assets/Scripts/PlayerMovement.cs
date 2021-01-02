@@ -24,9 +24,10 @@ public class PlayerMovement : MonoBehaviour
         _movement.z = Input.GetAxis("Vertical");
         
         _animator.SetFloat(Horizontal, _movement.x);
-        _animator.SetFloat(Vertical, _movement.y);
+        _animator.SetFloat(Vertical, _movement.z);
         _animator.SetFloat(Speed, _movement.sqrMagnitude);
 
-        _rigidBody.MovePosition(_rigidBody.position + _movement * (speed * Time.fixedDeltaTime));
+        _rigidBody.velocity = _movement * speed;
+        Debug.Log(_movement );
     }
 }
