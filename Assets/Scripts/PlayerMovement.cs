@@ -28,6 +28,5 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetFloat(Speed, _movement.sqrMagnitude);
 
         _rigidBody.velocity = _movement * speed;
-        Debug.Log(_movement );
     }
 }
