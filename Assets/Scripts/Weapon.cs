@@ -32,6 +32,8 @@ public class Weapon : MonoBehaviour
                 Debug.DrawLine(startPos, hit.point, Color.red, weaponType.cooldownDuration);
                 return enemy;
             }
+            
+            Debug.DrawLine(startPos, hit.point, Color.white, weaponType.cooldownDuration);
         }
 
         Debug.DrawLine(startPos, startPos + direction, Color.white, weaponType.cooldownDuration);
