@@ -44,7 +44,7 @@ public class Weapon : MonoBehaviour
     private void Attack()
     {
         var halfAngle = weaponType.angle / 2.0f;
-        var raysCount = Mathf.FloorToInt(halfAngle / weaponType.raycastDensity);
+        var raysCount = Mathf.FloorToInt(halfAngle / weaponType.angleBetweenRaycasts);
         var stepAngle = halfAngle / raysCount;
 
         var enemiesHit = new HashSet<Enemy>();
