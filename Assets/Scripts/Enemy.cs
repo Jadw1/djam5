@@ -9,11 +9,11 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : Entity<Stats>
 {
-    public Color hitColor = Color.red;
+    // public Color hitColor = Color.red;
     public float lerpFactor = 0.5f;
     
-    private Color _targetColor;
-    private Renderer _renderer;
+    // private Color _targetColor;
+    // private Renderer _renderer;
     private NavMeshAgent _agent;
 
     private Transform _player;
@@ -22,8 +22,8 @@ public class Enemy : Entity<Stats>
     {    
         Init();
         _agent = GetComponent<NavMeshAgent>();
-        _renderer = GetComponent<Renderer>();
-        _targetColor = _renderer.material.color;
+        // _renderer = GetComponent<Renderer>();
+        // _targetColor = _renderer.material.color;
 
         _player = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -31,7 +31,7 @@ public class Enemy : Entity<Stats>
     private void Update()
     {
         GoToPlayer();
-        _renderer.material.color = Color.Lerp(_renderer.material.color, _targetColor, lerpFactor * Time.deltaTime);
+        // _renderer.material.color = Color.Lerp(_renderer.material.color, _targetColor, lerpFactor * Time.deltaTime);
     }
 
     private void GoToPlayer() {
@@ -47,6 +47,6 @@ public class Enemy : Entity<Stats>
         base.TakeDamage(amount);
         
         Debug.Log($"Received damage: {amount}");
-        _renderer.material.color = hitColor;
+        // _renderer.material.color = hitColor;
     }
 }
