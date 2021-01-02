@@ -8,15 +8,33 @@ public class Weapon : MonoBehaviour
     private float _cooldown;
     private int _layerMask;
     private PlayerMovement _playerMovement;
+    private Animator _animator;
+    private GameObject _weaponPrefab;
 
     public WeaponType weaponType;
+    private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
+
     private void Start()
     {
         _layerMask = LayerMask.GetMask("Enemies", "World");
         _cooldown = Time.time;
         _playerMovement = gameObject.GetComponent<PlayerMovement>();
+        _animator = GetComponent<Animator>();
 
-        var weapon = Instantiate(weaponType.displayModel, hand);
+        SetWeaponType(weaponType);
+    }
+
+    private void SetWeaponType(WeaponType type)
+    {
+        if (_weaponPrefab != null)
+        {
+            Destroy(_weaponPrefab);
+        }
+        
+        _weaponPrefab = Instantiate(weaponType.displayModel, hand);
+        _animator.SetFloat(AttackSpeed, 1.0f / type.cooldownDuration);
+
+        weaponType = type;
     }
 
     private Enemy TryAttackDirection(Vector3 startPos, Vector3 forward, float angle)
