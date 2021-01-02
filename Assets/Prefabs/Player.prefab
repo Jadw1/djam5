@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 5039200380712454363}
   - component: {fileID: 5039200380712454362}
   - component: {fileID: 5039200380712454364}
+  - component: {fileID: 830452409}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -176,8 +177,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.5, z: 0}
+  m_Size: {x: 0.40959132, y: 1.0959932, z: 0.20682663}
+  m_Center: {x: 0, y: 0.70203215, z: 0}
 --- !u!114 &5039200380712454364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +192,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponType: {fileID: 11400000, guid: 7c68341526b93364abcc76c0cc1f4468, type: 2}
+--- !u!114 &830452409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5039200380712454358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51654a7034999e64f9edbd0befe92249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5039200381093769896
 GameObject:
   m_ObjectHideFlags: 0
