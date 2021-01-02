@@ -16,4 +16,7 @@ public class WeaponType : ScriptableObject
 
     [Range(0.0f, 60.0f)]
     public float cooldownDuration = 0.5f;
+
+    [Range(0.0f, 100.0f)]
+    public float damage = 10.0f;
 }
