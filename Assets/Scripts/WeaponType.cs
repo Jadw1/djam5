@@ -17,6 +17,9 @@ public class WeaponType : ScriptableObject
 
     [Range(0.0f, 100.0f)]
     public float damage = 10.0f;
+
+    [Range(0.0f, 32.0f)]
+    public float knockback = 1.0f;
     
     public GameObject displayModel;
 }
