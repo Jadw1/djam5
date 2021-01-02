@@ -38,71 +38,32 @@ public class Weapon : MonoBehaviour
         weaponType = type;
     }
 
-    private List<Enemy> TryAttackDirection(Vector3 startPos, Vector3 direction, float angle)
-    {
-        var enemies = new List<Enemy>();
-        var hits = Physics.RaycastAll(new Ray(startPos, direction), direction.magnitude, _layerMask);
-        
-        foreach (var hit in hits)
-        {
-            var enemy = hit.transform.GetComponent<Enemy>();
-
-            if (enemy != null)
-            {
-                Debug.DrawLine(startPos, hit.point, Color.red, weaponType.cooldownDuration);
-                enemies.Add(enemy);
-            }
-        }
-
-        if (hits.Length == 0)
-        {
-            Debug.DrawLine(startPos, startPos + direction, Color.white, weaponType.cooldownDuration);
-        }
-        
-        return enemies;
-    }
-
     private void Attack()
     {
         var position = transform.position;
-        
-        var halfAngle = weaponType.angle / 2.0f;
-        var raysCount = Mathf.FloorToInt(halfAngle / weaponType.angleBetweenRaycasts);
-        var stepAngle = halfAngle / raysCount;
-
-        var enemiesHit = new HashSet<Enemy>();
-
         var points = new List<Vector3>();
-
-
-        for (var i = -raysCount; i <= raysCount; i++)
+        foreach (var result in Physics.OverlapSphere(position, weaponType.range, _layerMask))
         {
-            var angle = stepAngle * i;
-            var direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward * weaponType.range;
+            var enemy = result.GetComponent<Enemy>();
 
-            points.Add(position + direction + Vector3.up * 1.0f);
-            foreach (var enemy in TryAttackDirection(position, direction, angle))
+            if (enemy != null)
             {
-                if (enemy != null)
+                var enemyPos = enemy.transform.position;
+                var angle = Vector3.Angle(enemyPos - position, transform.forward);
+
+                if (Mathf.Abs(angle) <= weaponType.angle / 2.0f)
                 {
-                    enemiesHit.Add(enemy);
+                    points.Add(enemyPos + Vector3.up * 0.5f);
+                    enemy.PushBack(position, weaponType.knockback);
+                    enemy.TakeDamage(weaponType.damage);
                 }
             }
         }
-
+        
+        points.Add(hand.position);
+        
         line.positionCount = points.Count;
         line.SetPositions(points.ToArray());
-
-        // TODO: Possible optimization:
-        // First get a hashset of transforms hit
-        // then iterate and filter out those with Enemy component
-        // Drawback: loss of debug lines indicating hit
-        Debug.Log(enemiesHit.Count);
-        foreach (var enemy in enemiesHit)
-        {
-            enemy.PushBack(position, weaponType.knockback);
-            enemy.TakeDamage(weaponType.damage);
-        }
     }
 
     private void Update()
