@@ -25,7 +25,7 @@ public class Weapon : MonoBehaviour
         SetWeaponType(weaponType);
     }
 
-    private void SetWeaponType(WeaponType type)
+    public void SetWeaponType(WeaponType type)
     {
         if (_weaponPrefab != null)
         {

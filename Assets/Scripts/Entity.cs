@@ -4,29 +4,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Entity : MonoBehaviour
-{
-    public float health;
-    public float maxHealth = 100;
-    public float speed = 5;
-    public float size = 1;
-    public float strength = 1;
-    public float dexterity = 1;
+public class Entity<T>: MonoBehaviour where T: Stats {
+    public T _stats;
 
-    private void Start()
-    {
-        health = maxHealth;
-    }
-
-    void Update()
-    {
-        
+    protected void Init() {
+        _stats = GetComponent<T>();
+        _stats.health = _stats.maxHealth;
     }
 
     public virtual void TakeDamage(float damage)
     {
-        health -= damage;
-        if (health <= 0)
+        _stats.health -= damage;
+        if (_stats.health <= 0)
         {
             Die();
         }

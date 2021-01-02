@@ -5,8 +5,9 @@ using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(Stats))]
 [RequireComponent(typeof(NavMeshAgent))]
-public class Enemy : Entity
+public class Enemy : Entity<Stats>
 {
     public Color hitColor = Color.red;
     public float lerpFactor = 0.5f;
@@ -18,7 +19,8 @@ public class Enemy : Entity
     private Transform _player;
 
     private void Start() 
-    {
+    {    
+        Init();
         _agent = GetComponent<NavMeshAgent>();
         _renderer = GetComponent<Renderer>();
         _targetColor = _renderer.material.color;
