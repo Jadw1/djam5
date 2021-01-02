@@ -4,7 +4,7 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public Transform hand;
-    public LineRenderer line;
+    public GameObject trail;
 
     private bool _underCooldown;
     private float _cooldown;
@@ -59,19 +59,31 @@ public class Weapon : MonoBehaviour
                 }
             }
         }
+
+        StartTrail(position, transform.forward);
+    }
+    
+    private void StartTrail(Vector3 origin, Vector3 direction)
+    {
+        var count = 24;
+        var points = new List<Vector3>();
+
+        for (var i = -count; i < count; i++)
+        {
+            var point = Quaternion.AngleAxis((weaponType.angle / (2 * count)) * i, Vector3.up) * direction * (weaponType.range - 0.5f);
+            points.Add(origin + point);
+        }
         
-        points.Add(hand.position);
-        
-        line.positionCount = points.Count;
-        line.SetPositions(points.ToArray());
+        var attackTrail = Instantiate(trail, points[0], Quaternion.identity).GetComponent<AttackTrail>();
+        attackTrail.StartTrail(weaponType.cooldownDuration, points);
     }
 
     private void Update()
     {
         if (_underCooldown && _cooldown <= Time.time)
         {
-            line.positionCount = 0;
-            line.SetPositions(new Vector3[] { });
+            // line.positionCount = 0;
+            // line.SetPositions(new Vector3[] { });
             _underCooldown = false;
         }
 

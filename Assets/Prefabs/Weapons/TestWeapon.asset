@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4a39beaa27b7164fba36a2e4096b35a, type: 3}
   m_Name: TestWeapon
   m_EditorClassIdentifier: 
-  range: 2
-  angle: 45
+  range: 1.5
+  angle: 180
   angleBetweenRaycasts: 5
   cooldownDuration: 0.5
   damage: 100
