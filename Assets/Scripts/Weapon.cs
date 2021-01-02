@@ -65,7 +65,7 @@ public class Weapon : MonoBehaviour
     
     private void StartTrail(Vector3 origin, Vector3 direction)
     {
-        var count = 24;
+        var count = 12;
         var points = new List<Vector3>();
 
         for (var i = -count; i < count; i++)
