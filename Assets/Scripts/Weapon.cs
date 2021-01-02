@@ -38,21 +38,28 @@ public class Weapon : MonoBehaviour
         weaponType = type;
     }
 
-    private Enemy TryAttackDirection(Vector3 startPos, Vector3 direction, float angle)
+    private List<Enemy> TryAttackDirection(Vector3 startPos, Vector3 direction, float angle)
     {
-        if (Physics.Raycast(new Ray(startPos, direction), out var hit, direction.magnitude, _layerMask))
+        var enemies = new List<Enemy>();
+        var hits = Physics.RaycastAll(new Ray(startPos, direction), direction.magnitude, _layerMask);
+        
+        foreach (var hit in hits)
         {
             var enemy = hit.transform.GetComponent<Enemy>();
 
             if (enemy != null)
             {
                 Debug.DrawLine(startPos, hit.point, Color.red, weaponType.cooldownDuration);
-                return enemy;
+                enemies.Add(enemy);
             }
         }
 
-        Debug.DrawLine(startPos, startPos + direction, Color.white, weaponType.cooldownDuration);
-        return null;
+        if (hits.Length == 0)
+        {
+            Debug.DrawLine(startPos, startPos + direction, Color.white, weaponType.cooldownDuration);
+        }
+        
+        return enemies;
     }
 
     private void Attack()
@@ -74,10 +81,12 @@ public class Weapon : MonoBehaviour
             var direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward * weaponType.range;
 
             points.Add(position + direction + Vector3.up * 1.0f);
-            var enemy = TryAttackDirection(position, direction, angle);
-            if (enemy != null)
+            foreach (var enemy in TryAttackDirection(position, direction, angle))
             {
-                enemiesHit.Add(enemy);
+                if (enemy != null)
+                {
+                    enemiesHit.Add(enemy);
+                }
             }
         }
 
