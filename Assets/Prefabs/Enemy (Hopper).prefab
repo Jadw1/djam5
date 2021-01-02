@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2762783729478891593}
   - component: {fileID: 2762783729478891575}
   - component: {fileID: 2762783729478891574}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 2762783730706663214}
   - component: {fileID: 2762783730706663212}
   - component: {fileID: 2762783730706663215}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 2762783731107880292}
   - component: {fileID: 2762783731107880290}
   - component: {fileID: 2762783731107880293}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 2762783731239741146}
   - component: {fileID: 2762783731239741149}
   - component: {fileID: 4848787943776778319}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Enemy (Hopper)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 2762783731552929367}
   - component: {fileID: 2762783731552929365}
   - component: {fileID: 2762783731552929364}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}

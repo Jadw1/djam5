@@ -31,7 +31,7 @@ public class Weapon : MonoBehaviour
         {
             Destroy(_weaponPrefab);
         }
-        
+
         _weaponPrefab = Instantiate(weaponType.displayModel, hand);
         _animator.SetFloat(AttackSpeed, 1.0f / type.cooldownDuration);
 
@@ -49,9 +49,6 @@ public class Weapon : MonoBehaviour
                 Debug.DrawLine(startPos, hit.point, Color.red, weaponType.cooldownDuration);
                 return enemy;
             }
-            
-            Debug.DrawLine(startPos, hit.point, Color.white, weaponType.cooldownDuration);
-            return null;
         }
 
         Debug.DrawLine(startPos, startPos + direction, Color.white, weaponType.cooldownDuration);
@@ -68,13 +65,14 @@ public class Weapon : MonoBehaviour
 
         var points = new List<Vector3>();
 
+
         for (var i = -raysCount; i <= raysCount; i++)
         {
             var angle = stepAngle * i;
             var direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward * weaponType.range;
 
             var position = transform.position;
-            
+
             points.Add(position + direction + Vector3.up * 1.0f);
             var enemy = TryAttackDirection(position, direction, angle);
             if (enemy != null)
@@ -82,7 +80,7 @@ public class Weapon : MonoBehaviour
                 enemiesHit.Add(enemy);
             }
         }
-        
+
         line.positionCount = points.Count;
         line.SetPositions(points.ToArray());
 
@@ -90,6 +88,7 @@ public class Weapon : MonoBehaviour
         // First get a hashset of transforms hit
         // then iterate and filter out those with Enemy component
         // Drawback: loss of debug lines indicating hit
+        Debug.Log(enemiesHit.Count);
         foreach (var enemy in enemiesHit)
         {
             enemy.TakeDamage(weaponType.damage);
@@ -104,7 +103,7 @@ public class Weapon : MonoBehaviour
             line.SetPositions(new Vector3[] { });
             _underCooldown = false;
         }
-        
+
         if (!_underCooldown && Input.GetMouseButtonDown(0))
         {
             _cooldown = Time.time + weaponType.cooldownDuration;
