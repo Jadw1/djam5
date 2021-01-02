@@ -5,18 +5,19 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5f;
+    private Player _player;
+    private Vector3 _movement;
     private Animator _animator;
     private Rigidbody _rigidBody;
-    private Vector3 _movement;
     private Weapon _weapon;
     private static readonly int Speed = Animator.StringToHash("Speed");
 
     private void Start()
     {
-        _rigidBody = GetComponent<Rigidbody>();
         _animator = GetComponent<Animator>();
+        _rigidBody = GetComponent<Rigidbody>();
         _weapon = GetComponent<Weapon>();
+        _player = GetComponent<Player>();
     }
 
     private void FixedUpdate()
@@ -26,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
         
         _animator.SetFloat(Speed, _movement.sqrMagnitude);
 
-        _rigidBody.velocity = _movement.normalized * speed;
+        _rigidBody.velocity = _movement.normalized * _player.speed;
         _rigidBody.rotation = _weapon.transform.rotation;
     }
 

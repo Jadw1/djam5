@@ -65,7 +65,7 @@ public class Weapon : MonoBehaviour
         // Drawback: loss of debug lines indicating hit
         foreach (var enemy in enemiesHit)
         {
-            enemy.DoDamage(weaponType.damage);
+            enemy.TakeDamage(weaponType.damage);
         }
     }
 

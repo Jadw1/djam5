@@ -1,11 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class Enemy : MonoBehaviour
+public class Enemy : Entity
 {
     public Color hitColor = Color.red;
     public float lerpFactor = 0.5f;
@@ -16,7 +17,8 @@ public class Enemy : MonoBehaviour
 
     private Transform _player;
 
-    private void Start() {
+    private void Start() 
+    {
         _agent = GetComponent<NavMeshAgent>();
         _renderer = GetComponent<Renderer>();
         _targetColor = _renderer.material.color;
@@ -38,8 +40,10 @@ public class Enemy : MonoBehaviour
         _agent.SetDestination(_player.position);
     }
 
-    public void DoDamage(float amount)
+    public override void TakeDamage(float amount)
     {
+        base.TakeDamage(amount);
+        
         Debug.Log($"Received damage: {amount}");
         _renderer.material.color = hitColor;
     }
