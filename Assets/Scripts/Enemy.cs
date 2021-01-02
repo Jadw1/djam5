@@ -2,12 +2,15 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(ParticleSystem))]
 [RequireComponent(typeof(Stats))]
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : Entity<Stats>
 {
     private NavMeshAgent _agent;
     private Rigidbody _rigidbody;
+    private ParticleSystem _particleSystem;
 
     private Transform _player;
 
@@ -16,6 +19,7 @@ public class Enemy : Entity<Stats>
         Init();
         _agent = GetComponent<NavMeshAgent>();
         _rigidbody = GetComponent<Rigidbody>();
+        _particleSystem = GetComponent<ParticleSystem>();
 
         _player = GameObject.FindGameObjectWithTag("Player").transform;
     }
@@ -36,6 +40,7 @@ public class Enemy : Entity<Stats>
     public override void TakeDamage(float amount)
     {
         base.TakeDamage(amount);
+        _particleSystem.Play();
     }
 
     public void PushBack(Vector3 origin, float force)
