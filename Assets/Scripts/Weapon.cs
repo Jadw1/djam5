@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public Transform hand;
+    
     private float _cooldown;
     private int _layerMask;
     private PlayerMovement _playerMovement;
@@ -14,7 +16,7 @@ public class Weapon : MonoBehaviour
         _cooldown = Time.time;
         _playerMovement = gameObject.GetComponent<PlayerMovement>();
 
-        Instantiate(weaponType.displayModel, transform);
+        var weapon = Instantiate(weaponType.displayModel, hand);
     }
 
     private Enemy TryAttackDirection(Vector3 startPos, Vector3 forward, float angle)
