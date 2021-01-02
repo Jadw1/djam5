@@ -46,7 +46,7 @@ public class Enemy : Entity<Stats>
     {
         base.TakeDamage(amount);
         
-        Debug.Log($"Received damage: {amount}");
+        //Debug.Log($"Received damage: {amount}");
         // _renderer.material.color = hitColor;
     }
 }

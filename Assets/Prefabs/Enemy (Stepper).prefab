@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 279242287684236109}
   - component: {fileID: 279242287684236111}
   - component: {fileID: 279242287684236110}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Right Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 279242287742257636}
   - component: {fileID: 279242287742257638}
   - component: {fileID: 279242287742257637}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ GameObject:
   - component: {fileID: 279242288062356018}
   - component: {fileID: 279242288062356044}
   - component: {fileID: 279242288062356019}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 279242288248073460}
   - component: {fileID: 279242288248073467}
   - component: {fileID: 279242288248073461}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Cap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -352,7 +352,7 @@ GameObject:
   - component: {fileID: 279242288785503339}
   - component: {fileID: 279242288785503333}
   - component: {fileID: 279242288785503332}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Left Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -437,7 +437,7 @@ GameObject:
   - component: {fileID: 279242289257158580}
   - component: {fileID: 279242289257158581}
   - component: {fileID: 5887763394463212115}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Enemy (Stepper)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
