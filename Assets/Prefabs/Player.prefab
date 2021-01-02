@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _stats: {fileID: 3195938109192115736}
-  healthBar: {fileID: 0}
+  body: {fileID: 5039200381876576703}
 --- !u!95 &5039200380712454360
 Animator:
   serializedVersion: 3
