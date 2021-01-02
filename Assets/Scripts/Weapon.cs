@@ -4,7 +4,9 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public Transform hand;
-    
+    public LineRenderer line;
+
+    private bool _underCooldown;
     private float _cooldown;
     private int _layerMask;
     private PlayerMovement _playerMovement;
@@ -20,7 +22,6 @@ public class Weapon : MonoBehaviour
         _cooldown = Time.time;
         _playerMovement = gameObject.GetComponent<PlayerMovement>();
         _animator = GetComponent<Animator>();
-
         SetWeaponType(weaponType);
     }
 
@@ -37,10 +38,8 @@ public class Weapon : MonoBehaviour
         weaponType = type;
     }
 
-    private Enemy TryAttackDirection(Vector3 startPos, Vector3 forward, float angle)
+    private Enemy TryAttackDirection(Vector3 startPos, Vector3 direction, float angle)
     {
-        var direction = Quaternion.AngleAxis(angle, Vector3.up) * forward;
-
         if (Physics.Raycast(new Ray(startPos, direction), out var hit, direction.magnitude, _layerMask))
         {
             var enemy = hit.transform.GetComponent<Enemy>();
@@ -67,15 +66,23 @@ public class Weapon : MonoBehaviour
 
         var enemiesHit = new HashSet<Enemy>();
 
+        var points = new List<Vector3>();
+
         for (var i = -raysCount; i <= raysCount; i++)
         {
             var angle = stepAngle * i;
-            var enemy = TryAttackDirection(transform.position, transform.forward * weaponType.range, angle);
+            var direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward * weaponType.range;
+            
+            points.Add(Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward * weaponType.range);
+            var enemy = TryAttackDirection(transform.position, direction, angle);
             if (enemy != null)
             {
                 enemiesHit.Add(enemy);
             }
         }
+        
+        line.positionCount = points.Count;
+        line.SetPositions(points.ToArray());
 
         // TODO: Possible optimization:
         // First get a hashset of transforms hit
@@ -89,9 +96,17 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0) && _cooldown <= Time.time)
+        if (_underCooldown && _cooldown <= Time.time)
+        {
+            line.positionCount = 0;
+            line.SetPositions(new Vector3[] { });
+            _underCooldown = false;
+        }
+        
+        if (!_underCooldown && Input.GetMouseButtonDown(0))
         {
             _cooldown = Time.time + weaponType.cooldownDuration;
+            _underCooldown = true;
             Attack();
             _playerMovement.AttackAnim();
         }
