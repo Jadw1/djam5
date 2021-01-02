@@ -5,9 +5,9 @@ using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(Stats))]
+[RequireComponent(typeof(EnemyStats))]
 [RequireComponent(typeof(NavMeshAgent))]
-public class Enemy : Entity<Stats>
+public class Enemy : Entity<EnemyStats>
 {
     // public Color hitColor = Color.red;
     public float lerpFactor = 0.5f;
@@ -45,8 +45,6 @@ public class Enemy : Entity<Stats>
     public override void TakeDamage(float amount)
     {
         base.TakeDamage(amount);
-        
-        //Debug.Log($"Received damage: {amount}");
         // _renderer.material.color = hitColor;
     }
 }

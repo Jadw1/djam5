@@ -11,4 +11,13 @@ public class Player : Entity<PlayerStats> {
     private void Start() {
         Init();
     }
+    
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 3)
+        {
+            var enemy = collision.gameObject.GetComponent<Enemy>();
+            TakeDamage(enemy._stats.damage);
+        }
+    }
 }

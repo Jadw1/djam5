@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 5039200380712454364}
   - component: {fileID: 4978221052424001454}
   - component: {fileID: 53278597005472678}
+  - component: {fileID: 5782642630333762503}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -356,6 +357,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9676dc96ab81c277bc7d98015a4aacc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5782642630333762503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5039200380712454358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b3a8317758fe84e8dee6a6ccc6abe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
+  maxHealth: 100
+  speed: 5
+  size: 1
+  strength: 1
+  dexterity: 1
+  mutations: []
+  mutation1: {fileID: 11400000, guid: 44da3b157d0803a499deac4a14f926e2, type: 2}
+  mutation2: {fileID: 11400000, guid: 7267bd639598fa449be8b692c50108af, type: 2}
+  mutation3: {fileID: 11400000, guid: 20fdd25b436ccc7459f78699a3ed80ca, type: 2}
 --- !u!1 &5039200381093769896
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ public class Entity<T>: MonoBehaviour where T: Stats {
 
     public virtual void TakeDamage(float damage)
     {
+        Debug.Log($"Received damage: {damage}");
         _stats.health -= damage;
         if (_stats.health <= 0)
         {
