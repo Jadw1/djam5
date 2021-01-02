@@ -13,4 +13,7 @@ public class WeaponType : ScriptableObject
 
     [Range(1f, 360f)]
     public float raycastDensity = 1.0f;
+
+    [Range(0.0f, 60.0f)]
+    public float cooldownDuration = 0.5f;
 }
