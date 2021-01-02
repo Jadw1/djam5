@@ -7,6 +7,7 @@ public class Weapon : MonoBehaviour
     private Plane _plane;
     private float _cooldown;
     private int _layerMask;
+    private PlayerMovement _playerMovement;
 
     public WeaponType weaponType;
     private void Start()
@@ -15,6 +16,7 @@ public class Weapon : MonoBehaviour
         _camera = Camera.main;
         _plane = new Plane(Vector3.up, Vector3.zero);
         _cooldown = Time.time;
+        _playerMovement = gameObject.GetComponent<PlayerMovement>();
 
         Instantiate(weaponType.displayModel, transform);
     }
@@ -85,6 +87,7 @@ public class Weapon : MonoBehaviour
         {
             _cooldown = Time.time + weaponType.cooldownDuration;
             Attack();
+            _playerMovement.AttackAnim();
         }
     }
 }
