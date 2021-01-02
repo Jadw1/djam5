@@ -7,5 +7,5 @@
 /contentModel.xml
 /projectSettingsUpdater.xml
 # Datasource local storage ignored files
-/../../../../../../../../../:\Users\piotr\source\repos\djam5\.idea\.idea.djam5\.idea/dataSources/
+.idea/dataSources/
 /dataSources.local.xml
