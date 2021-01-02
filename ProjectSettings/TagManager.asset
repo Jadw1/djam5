@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - NavMesh
+  - Exit
   layers:
   - Default
   - TransparentFX
