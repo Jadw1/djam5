@@ -27,5 +27,9 @@ public class Entity<T>: MonoBehaviour where T: Stats {
         Debug.Log(name + " Died");
         Destroy(gameObject);
     }
-    
+
+    public bool Alive()
+    {
+        return _stats.health > 0;
+    }
 }

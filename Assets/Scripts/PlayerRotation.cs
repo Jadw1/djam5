@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerRotation : MonoBehaviour
@@ -11,16 +12,19 @@ public class PlayerRotation : MonoBehaviour
 
     private void Update()
     {
-        var ray = _camera.ScreenPointToRay(Input.mousePosition);
-
-        var plane = new Plane(Vector3.up, transform.position);
-        
-        if (plane.Raycast(ray, out var distance))
+        if (Math.Abs(Time.timeScale - 1) < 0.1)
         {
-            var mousePointInWorld = ray.GetPoint(distance);
-            var direction = mousePointInWorld - transform.position;
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
 
-            transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+            var plane = new Plane(Vector3.up, transform.position);
+
+            if (plane.Raycast(ray, out var distance))
+            {
+                var mousePointInWorld = ray.GetPoint(distance);
+                var direction = mousePointInWorld - transform.position;
+
+                transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+            }
         }
     }
 }

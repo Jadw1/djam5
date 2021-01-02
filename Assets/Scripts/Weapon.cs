@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -87,7 +88,7 @@ public class Weapon : MonoBehaviour
             _underCooldown = false;
         }
 
-        if (!_underCooldown && Input.GetMouseButtonDown(0))
+        if (!_underCooldown && Input.GetMouseButtonDown(0) && Math.Abs(Time.timeScale - 1) < 0.1)
         {
             _cooldown = Time.time + weaponType.cooldownDuration;
             _underCooldown = true;
