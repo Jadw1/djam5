@@ -9,8 +9,11 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(PlayerRotation))]
 public class Player : Entity<PlayerStats> {
 
+    public HealthBar healthBar;
+    
     private void Start() {
         Init();
+        healthBar.SetMaxHealth(_stats.maxHealth);
     }
     
     void OnCollisionEnter(Collision collision)
@@ -22,6 +25,13 @@ public class Player : Entity<PlayerStats> {
         }
     }
 
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        
+        healthBar.SetHealth(_stats.health);
+    }
+    
     protected override void Die()
     {
         Debug.Log("You died!");
