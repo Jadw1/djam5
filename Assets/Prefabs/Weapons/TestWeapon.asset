@@ -16,3 +16,5 @@ MonoBehaviour:
   angle: 45
   raycastDensity: 1
   cooldownDuration: 0.5
+  damage: 10
+  displayModel: {fileID: 4924482915916202929, guid: ab6049ed2ecca284191940d9b6d82078, type: 3}

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Weapon", menuName = "Game/Weapon")]
@@ -19,4 +17,6 @@ public class WeaponType : ScriptableObject
 
     [Range(0.0f, 100.0f)]
     public float damage = 10.0f;
+    
+    public GameObject displayModel;
 }

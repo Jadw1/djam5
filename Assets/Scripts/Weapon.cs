@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using JetBrains.Annotations;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -7,21 +6,24 @@ public class Weapon : MonoBehaviour
     private Camera _camera;
     private Plane _plane;
     private float _cooldown;
+    private int _layerMask;
 
     public WeaponType weaponType;
     private void Start()
     {
+        _layerMask = LayerMask.GetMask("Enemies", "World");
         _camera = Camera.main;
         _plane = new Plane(Vector3.up, Vector3.zero);
         _cooldown = Time.time;
+
+        Instantiate(weaponType.displayModel, transform);
     }
 
-    [CanBeNull]
     private Enemy TryAttackDirection(Vector3 startPos, Vector3 forward, float angle)
     {
         var direction = Quaternion.AngleAxis(angle, Vector3.up) * forward;
 
-        if (Physics.Raycast(new Ray(startPos, direction), out var hit, direction.magnitude))
+        if (Physics.Raycast(new Ray(startPos, direction), out var hit, direction.magnitude, _layerMask))
         {
             var enemy = hit.transform.GetComponent<Enemy>();
 
@@ -38,16 +40,6 @@ public class Weapon : MonoBehaviour
 
     private void Attack()
     {
-        var ray = _camera.ScreenPointToRay(Input.mousePosition);
-        
-        if (_plane.Raycast(ray, out var distance))
-        {
-            var mousePointInWorld = ray.GetPoint(distance);
-            var direction = mousePointInWorld - transform.position;
-
-            transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
-        }
-        
         var halfAngle = weaponType.angle / 2.0f;
         var raysCount = Mathf.FloorToInt(halfAngle / weaponType.raycastDensity);
         var stepAngle = halfAngle / raysCount;
@@ -76,6 +68,16 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
+        var ray = _camera.ScreenPointToRay(Input.mousePosition);
+        
+        if (_plane.Raycast(ray, out var distance))
+        {
+            var mousePointInWorld = ray.GetPoint(distance);
+            var direction = mousePointInWorld - transform.position;
+
+            transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+        }
+        
         if (Input.GetMouseButtonDown(0) && _cooldown <= Time.time)
         {
             _cooldown = Time.time + weaponType.cooldownDuration;
