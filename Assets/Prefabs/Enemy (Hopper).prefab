@@ -258,6 +258,7 @@ GameObject:
   - component: {fileID: 2762783731239741147}
   - component: {fileID: 2762783731239741146}
   - component: {fileID: 2762783731239741149}
+  - component: {fileID: 4848787943776778319}
   m_Layer: 0
   m_Name: Enemy (Hopper)
   m_TagString: Untagged
@@ -315,7 +316,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 3
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -369,6 +370,22 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &4848787943776778319
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2762783731239741144}
+  serializedVersion: 2
+  m_Mass: 3
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 84
+  m_CollisionDetection: 0
 --- !u!1 &2762783731552929366
 GameObject:
   m_ObjectHideFlags: 0
