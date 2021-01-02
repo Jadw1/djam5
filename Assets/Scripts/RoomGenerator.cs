@@ -5,6 +5,12 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class RoomGenerator : MonoBehaviour {
+
+    [SerializeField] 
+    private GameObject groundPrefab;
+
+    [SerializeField] 
+    private GameObject wallPrefab;
     
     [SerializeField]
     [Min(3)]
@@ -42,8 +48,8 @@ public class RoomGenerator : MonoBehaviour {
 
     public void GenerateRoom() {
         CleanRoom();
-        
-        ground = GameObject.CreatePrimitive(PrimitiveType.Cube);
+
+        ground = Instantiate(groundPrefab, transform);
         ground.transform.localScale = new Vector3(width, 1f, height);
         ground.transform.localPosition = new Vector3((float)width/2, 0f, (float)height/2);
         ground.transform.parent = transform;
