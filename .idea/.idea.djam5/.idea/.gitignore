@@ -2,8 +2,6 @@
 /shelf/
 /workspace.xml
 # Rider ignored files
-/contentModel.xml
-/.idea.djam5.iml
 /modules.xml
 /projectSettingsUpdater.xml
 # Datasource local storage ignored files
@@ -11,3 +9,7 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
+/.idea.djam5.iml
+/contentModel.xml
+# Datasource local storage ignored files
+.idea/dataSources/
