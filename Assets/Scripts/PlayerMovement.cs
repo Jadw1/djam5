@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
         
         _animator.SetFloat(Speed, _movement.sqrMagnitude);
 
-        _rigidBody.velocity = _movement * speed;
+        _rigidBody.velocity = _movement.normalized * speed;
         _rigidBody.rotation = _weapon.transform.rotation;
     }
 
