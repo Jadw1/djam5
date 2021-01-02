@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 2
   angle: 45
-  raycastDensity: 0.01
+  raycastDensity: 1
+  cooldownDuration: 0.5

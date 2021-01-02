@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
@@ -14,10 +16,28 @@ public class Weapon : MonoBehaviour
         _cooldown = Time.time;
     }
 
+    [CanBeNull]
+    private Enemy TryAttackDirection(Vector3 startPos, Vector3 forward, float angle)
+    {
+        var direction = Quaternion.AngleAxis(angle, Vector3.up) * forward;
+
+        if (Physics.Raycast(new Ray(startPos, direction), out var hit, direction.magnitude))
+        {
+            var enemy = hit.transform.GetComponent<Enemy>();
+
+            if (enemy != null)
+            {
+                Debug.DrawLine(startPos, hit.point, Color.red, weaponType.cooldownDuration);
+                return enemy;
+            }
+        }
+
+        Debug.DrawLine(startPos, startPos + direction, Color.white, weaponType.cooldownDuration);
+        return null;
+    }
+
     private void Attack()
     {
-        Debug.Log("ATTACK!");
-        
         var ray = _camera.ScreenPointToRay(Input.mousePosition);
         
         if (_plane.Raycast(ray, out var distance))
@@ -27,26 +47,30 @@ public class Weapon : MonoBehaviour
 
             transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
         }
-
-        var forward = transform.forward * weaponType.range;
-
+        
         var halfAngle = weaponType.angle / 2.0f;
         var raysCount = Mathf.FloorToInt(halfAngle / weaponType.raycastDensity);
         var stepAngle = halfAngle / raysCount;
 
-        var position = transform.position;
-        
-        Debug.DrawLine(position, position + forward, Color.red, weaponType.cooldownDuration);
-        
-        for (var i = 1; i <= raysCount; i++)
+        var enemiesHit = new HashSet<Enemy>();
+
+        for (var i = -raysCount; i <= raysCount; i++)
         {
             var angle = stepAngle * i;
-            
-            var left = Quaternion.AngleAxis(angle, Vector3.up) * forward;
-            var right = Quaternion.AngleAxis(-angle, Vector3.up) * forward;
-            
-            Debug.DrawLine(position, position + left, Color.red, weaponType.cooldownDuration);
-            Debug.DrawLine(position, position + right, Color.red, weaponType.cooldownDuration);
+            var enemy = TryAttackDirection(transform.position, transform.forward * weaponType.range, angle);
+            if (enemy != null)
+            {
+                enemiesHit.Add(enemy);
+            }
+        }
+
+        // TODO: Possible optimization:
+        // First get a hashset of transforms hit
+        // then iterate and filter out those with Enemy component
+        // Drawback: loss of debug lines indicating hit
+        foreach (var enemy in enemiesHit)
+        {
+            enemy.DoDamage(weaponType.damage);
         }
     }
 
