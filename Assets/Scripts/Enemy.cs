@@ -4,7 +4,7 @@ using UnityEngine.AI;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(ParticleSystem))]
-[RequireComponent(typeof(Stats))]
+[RequireComponent(typeof(EnemyStats))]
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : Entity<EnemyStats>
 {
