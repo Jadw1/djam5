@@ -21,8 +21,8 @@ public class Entity<T>: MonoBehaviour where T: Stats {
             Die();
         }
     }
-    
-    void Die()
+
+    protected virtual void Die()
     {
         Debug.Log(name + " Died");
         Destroy(gameObject);

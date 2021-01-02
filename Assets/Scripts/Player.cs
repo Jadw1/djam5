@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(PlayerStats))]
 [RequireComponent(typeof(PlayerMovement))]
@@ -19,5 +20,11 @@ public class Player : Entity<PlayerStats> {
             var enemy = collision.gameObject.GetComponent<Enemy>();
             TakeDamage(enemy._stats.damage);
         }
+    }
+
+    protected override void Die()
+    {
+        Debug.Log("You died!");
+        SceneManager.LoadScene("DevArcana");
     }
 }
