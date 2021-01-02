@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    private Camera _camera;
-    private Plane _plane;
     private float _cooldown;
     private int _layerMask;
     private PlayerMovement _playerMovement;
@@ -13,8 +11,6 @@ public class Weapon : MonoBehaviour
     private void Start()
     {
         _layerMask = LayerMask.GetMask("Enemies", "World");
-        _camera = Camera.main;
-        _plane = new Plane(Vector3.up, Vector3.zero);
         _cooldown = Time.time;
         _playerMovement = gameObject.GetComponent<PlayerMovement>();
 
@@ -73,16 +69,6 @@ public class Weapon : MonoBehaviour
 
     private void Update()
     {
-        var ray = _camera.ScreenPointToRay(Input.mousePosition);
-        
-        if (_plane.Raycast(ray, out var distance))
-        {
-            var mousePointInWorld = ray.GetPoint(distance);
-            var direction = mousePointInWorld - transform.position;
-
-            transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
-        }
-        
         if (Input.GetMouseButtonDown(0) && _cooldown <= Time.time)
         {
             _cooldown = Time.time + weaponType.cooldownDuration;
