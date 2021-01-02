@@ -28,13 +28,13 @@ public class PlayerStats : Stats {
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.B)) {
-            ApplyMutation(mutation1);
+            AddMutation(mutation1);
         }
         else if (Input.GetKeyDown(KeyCode.N)) {
-            ApplyMutation(mutation2);
+            AddMutation(mutation2);
         }
         else if (Input.GetKeyDown(KeyCode.M)) {
-            ApplyMutation(mutation3);
+            AddMutation(mutation3);
         }
     }
 
@@ -71,7 +71,7 @@ public class PlayerStats : Stats {
         dexterity += delta.dexterity;
     }
     
-    private void Revert(PlayerStatsDelta delta) {
+    private void RevertDeltaStats(PlayerStatsDelta delta) {
         health -= delta.health;
         maxHealth -= delta.maxHealth;
         speed -= delta.speed;

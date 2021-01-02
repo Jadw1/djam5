@@ -57,6 +57,8 @@ public class Weapon : MonoBehaviour
 
     private void Attack()
     {
+        var position = transform.position;
+        
         var halfAngle = weaponType.angle / 2.0f;
         var raysCount = Mathf.FloorToInt(halfAngle / weaponType.angleBetweenRaycasts);
         var stepAngle = halfAngle / raysCount;
@@ -70,8 +72,6 @@ public class Weapon : MonoBehaviour
         {
             var angle = stepAngle * i;
             var direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward * weaponType.range;
-
-            var position = transform.position;
 
             points.Add(position + direction + Vector3.up * 1.0f);
             var enemy = TryAttackDirection(position, direction, angle);
@@ -91,6 +91,7 @@ public class Weapon : MonoBehaviour
         Debug.Log(enemiesHit.Count);
         foreach (var enemy in enemiesHit)
         {
+            enemy.PushBack(position, weaponType.knockback);
             enemy.TakeDamage(weaponType.damage);
         }
     }
