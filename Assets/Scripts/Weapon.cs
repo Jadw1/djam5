@@ -72,9 +72,11 @@ public class Weapon : MonoBehaviour
         {
             var angle = stepAngle * i;
             var direction = Quaternion.AngleAxis(angle, Vector3.up) * transform.forward * weaponType.range;
+
+            var position = transform.position;
             
-            points.Add(Quaternion.AngleAxis(angle, Vector3.up) * Vector3.forward * weaponType.range);
-            var enemy = TryAttackDirection(transform.position, direction, angle);
+            points.Add(position + direction + Vector3.up * 1.0f);
+            var enemy = TryAttackDirection(position, direction, angle);
             if (enemy != null)
             {
                 enemiesHit.Add(enemy);
