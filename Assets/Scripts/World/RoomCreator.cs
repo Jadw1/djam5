@@ -78,18 +78,26 @@ public class RoomCreator : MonoBehaviour {
             
 
             if (nextEl.type == ElementType.CROSSING) {
-                CrossingEntity ce = re.crossings[0];
+                if (re.crossings.Count > 1) {
+                    branches += re.crossings.Count - 1;
+                }
+
+                foreach (var ce in re.crossings) {
+                    StackElement newStackElement = new StackElement();
+                    newStackElement.depth = el.depth + 1;
+                    newStackElement.direction = CalculateDirection(el.direction, ce.direction);
+                    //newStackElement.entryPoint = tr.localPosition + ce.crossing.localPosition;
+                    newStackElement.entryPoint = ce.crossing.position;
                 
-                StackElement newStackElement = new StackElement();
-                newStackElement.depth = el.depth + 1;
-                newStackElement.direction = CalculateDirection(el.direction, ce.direction);
-                //newStackElement.entryPoint = tr.localPosition + ce.crossing.localPosition;
-                newStackElement.entryPoint = ce.crossing.position;
-                
-                stack.Push(newStackElement);
+                    stack.Push(newStackElement);
+                }
             }
             else if (nextEl.type == ElementType.EXIT) {
                 exitCreated = true;
+            }
+
+            if (nextEl.type == ElementType.EXIT || nextEl.type == ElementType.DEAD_END) {
+                branches--;
             }
         }
 
@@ -112,7 +120,7 @@ public class RoomCreator : MonoBehaviour {
         testRoom.parent = transform;
         navMesh.BuildNavMesh();
 
-        spawner.SpawnEnemies(parameters.enemySpawns.ToArray());
+        spawner.SpawnEnemies(parameters.enemySpawns.ToArray(), 0.2f);
         
         Transform player = Instantiate(playerPrefab).transform;
         player.position = parameters.playerSpawn.position;

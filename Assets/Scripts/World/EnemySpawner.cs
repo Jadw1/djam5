@@ -15,10 +15,13 @@ public class EnemySpawner : MonoBehaviour {
         rng = new Random(seed);
     }
 
-    public void SpawnEnemies(Transform[] spawnPoints) {
+    public void SpawnEnemies(Transform[] spawnPoints, float probability) {
         foreach (var point in spawnPoints) {
-            var enemy = Instantiate(RandEnemy()).transform;
-            enemy.position = point.position;
+            bool spawn = UnityEngine.Random.Range(0.0f, 1.0f) <= probability;
+            if (spawn) {
+                var enemy = Instantiate(RandEnemy()).transform;
+                enemy.position = point.position;   
+            }
         }
     }
 
