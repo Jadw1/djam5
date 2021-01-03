@@ -46,8 +46,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   groundPrefab: {fileID: 3017035008513602813, guid: 1d2d3c19ac442254e8a1fdc7b9bae8b3, type: 3}
   wallPrefab: {fileID: 6550454860647207976, guid: be6434e9051695d42ab9e8445d4dc122, type: 3}
-  width: 38
-  height: 9
+  randomSize: {x: 0, y: 0}
+  variation: {x: 0, y: 0}
+  sizeTreshold: 5
+  size: {x: 0, y: 0}
 --- !u!1 &3122173807359306745
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,6 +107,6 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.06666667
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}

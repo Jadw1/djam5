@@ -10,7 +10,7 @@ public class RoomCreatorEditor : Editor
 
         RoomCreator creator = (RoomCreator) target;
         if (GUILayout.Button("Generate random room")) {
-            creator.Test();
+            creator.GenerateRoom();
         }
     }
 }

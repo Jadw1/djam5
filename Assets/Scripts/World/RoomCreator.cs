@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.AI;
 using Random = System.Random;
 
 public class RoomCreator : MonoBehaviour {
@@ -12,7 +13,8 @@ public class RoomCreator : MonoBehaviour {
     public int maxDepth = 7;
     public int seed = 0;
 
-    private GameObject testRoom;
+    private NavMeshSurface navMesh;
+    private Transform testRoom;
 
     struct StackElement {
         public Vector3 entryPoint;
@@ -25,19 +27,20 @@ public class RoomCreator : MonoBehaviour {
             this.depth = depth;
         }
     }
-    
-    public GameObject CreateRoom() {
-        if (seed == 0) {
-            seed = (int)System.DateTime.Now.Ticks;
-        }
+
+    private void Start() {
+        navMesh = GetComponentInChildren<NavMeshSurface>();
+    }
+
+    public Transform CreateRoom() {
         Random rng = new Random(seed);
         
-        GameObject room = new GameObject("Room");
+        Transform room = new GameObject("Room").transform;
         Stack<StackElement> stack = new Stack<StackElement>();
 
         RoomElement enter = elements
             .FirstOrDefault(e => e.type == ElementType.ENTER);
-        Transform enterTrans = Instantiate(enter, room.transform).transform;
+        Transform enterTrans = Instantiate(enter, room).transform;
         enterTrans.localPosition = Vector3.zero;
         CrossingEntity crossing = enter.crossings[0];
         stack.Push(new StackElement(crossing.crossing.localPosition, crossing.direction, 1));
@@ -73,8 +76,17 @@ public class RoomCreator : MonoBehaviour {
         return room;
     }
 
-    public void Test() {
+    private void RandomSeed() {
+        if (seed == 0) {
+            seed = (int)System.DateTime.Now.Ticks;
+        }
+    }
+    
+    public void GenerateRoom() {
+        RandomSeed();
         testRoom = CreateRoom();
+        testRoom.parent = transform;
+        navMesh.BuildNavMesh();
     }
 
     private int SelectElements(int depth, bool exitCreated, int branches) {
