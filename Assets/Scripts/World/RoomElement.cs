@@ -31,5 +31,6 @@ public class RoomElement : MonoBehaviour {
     public ElementType type;
     [Space(10)]
     
+    public Transform[] enemySpawnPoints = new Transform[0];
     public List<CrossingEntity> crossings = new List<CrossingEntity>(0);
 }
