@@ -2,18 +2,19 @@
 using DefaultNamespace;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
-    [RequireComponent(typeof(TextMeshProUGUI))]
+    [RequireComponent(typeof(Text))]
     public class DisplayPoints : MonoBehaviour
     {
-        private TextMeshProUGUI _text;
+        private Text _text;
         private int _lastPoints = 0;
 
         private void Start()
         {
-            _text = GetComponent<TextMeshProUGUI>();
+            _text = GetComponent<Text>();
         }
 
         private void FixedUpdate()
@@ -23,7 +24,7 @@ namespace UI
             if (points != _lastPoints)
             {
                 _lastPoints = points;
-                _text.SetText(points.ToString());
+                _text.text = points.ToString();
             }
         }
     }
