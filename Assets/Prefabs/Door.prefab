@@ -369,7 +369,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 20fdd25b436ccc7459f78699a3ed80ca, type: 2}
   - {fileID: 11400000, guid: ddbb221782af26f49b80891d570cdca8, type: 2}
   - {fileID: 11400000, guid: a8bbd996f7ca4eb4dae0670c7efab460, type: 2}
-  afterOpenText: Already mutated through this door!
+  afterOpenText: Go on! Mutations await!
   lockedText: The door is locked.
 --- !u!95 &8873991966245172446
 Animator:

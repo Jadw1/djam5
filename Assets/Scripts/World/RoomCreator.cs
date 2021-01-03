@@ -274,7 +274,7 @@ public class RoomCreator : MonoBehaviour {
         currentRoom.localPosition = new Vector3();
         navMesh.BuildNavMesh();
         
-        spawner.SpawnEnemies(currentParams.enemySpawns.ToArray(), 1.0f);
+        spawner.SpawnEnemies(currentParams.enemySpawns.ToArray(), 0.5f);
         
         Transform player = Instantiate(playerPrefab).transform;
         player.position = newParams.playerSpawn.position;
@@ -304,7 +304,7 @@ public class RoomCreator : MonoBehaviour {
         currentRoom.rotation = origin.rotation;
         navMesh.BuildNavMesh();
         
-        spawner.SpawnEnemies(currentParams.enemySpawns.ToArray(), 1.0f);
+        spawner.SpawnEnemies(currentParams.enemySpawns.ToArray(), 0.5f);
         
         GenerateRoom();
         return true;

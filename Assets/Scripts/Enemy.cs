@@ -121,6 +121,7 @@ public class Enemy : Entity<EnemyStats>
     
     IEnumerator DelayDeath(){
         yield return new WaitForSeconds(onDeath.length);
+        EnemySpawner.Instance.OnEnemyDeath();
         base.Die();
     }
 

@@ -18,7 +18,7 @@ public class Door : MonoBehaviour
     public List<WeaponMutation> weaponMutations;
     private List<Mutation> _mutations;
     private string _message;
-    private bool _locked;
+    private bool _locked = true;
     
     public string afterOpenText = "No mutations left.";
     public string lockedText = "The door is locked.";
@@ -113,6 +113,11 @@ public class Door : MonoBehaviour
 
     private void Update()
     {
+        if (_locked && EnemySpawner.Instance.Count == 0)
+        {
+            Unlock();
+        }
+        
         if (_canBeOpened && !_isOpen && Input.GetKeyDown(KeyCode.E))
         {
             Open();
