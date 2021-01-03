@@ -5,9 +5,9 @@ using UnityEngine;
 
 public enum Direction {
     FORWARD = (1 << 0),
-    LEFT = (1 << 1),
-    RIGHT = (1 << 2),
-    BACKWARD = (1 << 3)
+    RIGHT = (1 << 1),
+    BACKWARD = (1 << 2),
+    LEFT = (1 << 3)
 }
 
 public enum ElementType {
@@ -31,6 +31,5 @@ public class RoomElement : MonoBehaviour {
     public ElementType type;
     [Space(10)]
     
-    [SerializeField]
-    private List<CrossingEntity> crossings = new List<CrossingEntity>(0);
+    public List<CrossingEntity> crossings = new List<CrossingEntity>(0);
 }
