@@ -48,9 +48,6 @@ public class Door : MonoBehaviour
             .Take(2)
             .ToList();
     }
-    
-    public delegate void OpenEvent(Door door);
-    public event OpenEvent OnOpen;
 
     public void Unlock()
     {
@@ -69,10 +66,12 @@ public class Door : MonoBehaviour
         _animator.SetBool("opened", _isOpen);
     }
     
+    public delegate void OpenEvent(Door door);
+    public event OpenEvent OnOpen;
+    
     private void Open() {
-        RoomCreator creator = GameObject.FindGameObjectWithTag("RoomCreator").GetComponent<RoomCreator>();
-        //creator.LoadNextLevel(transform);
-        
+        DestroyLevel();
+        LoadLevel();
         foreach (var mutation in _mutations)
         {
             _player.AddMutation(mutation);
@@ -85,14 +84,31 @@ public class Door : MonoBehaviour
         UpdateAnim();
         OnOpen?.Invoke(this);
     }
+    
+    public delegate void CloseEvent(Door door);
+    public event OpenEvent OnClose;
+
+    private void LoadLevel()
+    {
+        RoomCreator creator = GameObject.FindGameObjectWithTag("RoomCreator").GetComponent<RoomCreator>();
+        creator.LoadNextLevel(transform);
+    }
+
+    private void DestroyLevel()
+    {
+        RoomCreator creator = GameObject.FindGameObjectWithTag("RoomCreator").GetComponent<RoomCreator>();
+        if (creator.levelCounter > 1)
+        {
+            creator.DestroyOldLevel();
+        }
+    }
 
     private void Close()
     {
         _isOpen = false;
         UpdateAnim();
-        
-        RoomCreator creator = GameObject.FindGameObjectWithTag("RoomCreator").GetComponent<RoomCreator>();
-        //creator.DestroyOldLevel();
+
+        OnClose?.Invoke(this);
     }
 
     private void Update()
@@ -112,11 +128,6 @@ public class Door : MonoBehaviour
             _player = null;
             helperText.enabled = false;
             _canBeOpened = false;
-
-            if (_isOpen)
-            {
-                Close();
-            }
         }
     }
 
