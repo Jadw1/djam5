@@ -37,6 +37,7 @@ public class RoomElement : MonoBehaviour {
     [Space(10)] 
     [Header("For enter")] 
     public Transform playerSpawnPoint;
+    public GameObject door;
 
     private WorldCollider[] colliders;
     
@@ -45,5 +46,13 @@ public class RoomElement : MonoBehaviour {
         foreach (var collider in colliders) {
             collider.RegisterCollider(collisionFunc);
         }
+    }
+
+    public void ActivateDoor() {
+        door.SetActive(true);
+    }
+
+    public void DeactivateDoor() {
+        door.SetActive(false);
     }
 }

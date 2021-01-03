@@ -243,7 +243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   maxHealth: 100
-  speed: 5
+  speed: 10
   size: 1
   strength: 1
   dexterity: 1

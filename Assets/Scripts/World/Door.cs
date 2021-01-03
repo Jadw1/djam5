@@ -71,7 +71,7 @@ public class Door : MonoBehaviour
     
     private void Open() {
         RoomCreator creator = GameObject.FindGameObjectWithTag("RoomCreator").GetComponent<RoomCreator>();
-        //creator.LoadNextLevel(transform);
+        creator.LoadNextLevel(transform);
         
         foreach (var mutation in _mutations)
         {
@@ -92,7 +92,7 @@ public class Door : MonoBehaviour
         UpdateAnim();
         
         RoomCreator creator = GameObject.FindGameObjectWithTag("RoomCreator").GetComponent<RoomCreator>();
-        //creator.DestroyOldLevel();
+        creator.DestroyOldLevel();
     }
 
     private void Update()

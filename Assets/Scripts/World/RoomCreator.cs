@@ -283,4 +283,45 @@ public class RoomCreator : MonoBehaviour {
         
         GenerateRoom();
     }
+
+    public bool LoadNextLevel(Transform origin) {
+        if (progress != GenerationProgress.IDLE) {
+            return false;
+        }
+        
+        oldRoom = currentRoom;
+        oldParams = newParams;
+        oldRoom.name = "Old Room";
+
+        currentRoom = newRoom;
+        currentParams = newParams;
+        currentRoom.name = "Room";
+
+        DeactivateDoor(currentRoom);
+        currentRoom.position = new Vector3(origin.position.x, 0.0f, origin.position.z);
+        currentRoom.rotation = origin.rotation;
+        
+        GenerateRoom();
+        return true;
+    }
+
+    public void DestroyOldLevel() {
+        ActivateDoor(currentRoom);
+        StartCoroutine(DestroyOld());
+    }
+
+    private void ActivateDoor(Transform room) {
+        RoomElement el = room.GetChild(0).GetComponent<RoomElement>();
+        el.ActivateDoor();
+    }
+    
+    private void DeactivateDoor(Transform room) {
+        RoomElement el = room.GetChild(0).GetComponent<RoomElement>();
+        el.DeactivateDoor();
+    }
+
+    private IEnumerator DestroyOld() {
+        yield return new WaitForSeconds(1.0f);
+        Destroy(oldRoom.gameObject);
+    }
 }
