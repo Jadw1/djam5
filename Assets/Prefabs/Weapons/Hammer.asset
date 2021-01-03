@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e4a39beaa27b7164fba36a2e4096b35a, type: 3}
-  m_Name: TestWeapon
+  m_Name: Hammer
   m_EditorClassIdentifier: 
-  range: 1.5
-  angle: 180
-  angleBetweenRaycasts: 5
-  cooldownDuration: 0.5
-  damage: 100
+  range: 1
+  angle: 60
+  cooldownDuration: 0.75
+  damage: 10
   knockback: 32
-  displayModel: {fileID: 4924482915916202929, guid: ab6049ed2ecca284191940d9b6d82078, type: 3}
+  displayModel: {fileID: 5680635755093535256, guid: 091a671b24651884dbaed77db16a9a6e, type: 3}

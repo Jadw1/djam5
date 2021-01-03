@@ -9,9 +9,6 @@ public class WeaponType : ScriptableObject
     [Range(0, 360)]
     public float angle = 45.0f;
 
-    [Range(1f, 360f)]
-    public float angleBetweenRaycasts = 1.0f;
-
     [Range(0.0f, 60.0f)]
     public float cooldownDuration = 0.5f;
 

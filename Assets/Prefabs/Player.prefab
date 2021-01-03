@@ -242,9 +242,9 @@ MonoBehaviour:
   strength: 1
   dexterity: 1
   mutations: []
-  mutation1: {fileID: 11400000, guid: 20fdd25b436ccc7459f78699a3ed80ca, type: 2}
-  mutation2: {fileID: 11400000, guid: 7267bd639598fa449be8b692c50108af, type: 2}
-  mutation3: {fileID: 11400000, guid: 44da3b157d0803a499deac4a14f926e2, type: 2}
+  mutation1: {fileID: 11400000, guid: a8bbd996f7ca4eb4dae0670c7efab460, type: 2}
+  mutation2: {fileID: 11400000, guid: 20fdd25b436ccc7459f78699a3ed80ca, type: 2}
+  mutation3: {fileID: 11400000, guid: ddbb221782af26f49b80891d570cdca8, type: 2}
 --- !u!1 &5039200381093769896
 GameObject:
   m_ObjectHideFlags: 0
