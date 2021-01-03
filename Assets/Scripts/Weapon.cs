@@ -33,10 +33,10 @@ public class Weapon : MonoBehaviour
             Destroy(_weaponPrefab);
         }
 
+        weaponType = type;
+        
         _weaponPrefab = Instantiate(weaponType.displayModel, hand);
         _animator.SetFloat(AttackSpeed, 1.0f / type.cooldownDuration);
-
-        weaponType = type;
     }
 
     private void Attack()
