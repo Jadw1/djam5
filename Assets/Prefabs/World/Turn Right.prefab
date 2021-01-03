@@ -50,10 +50,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e028ad5ca10764bafe535d2420957c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
+  type: 2
   crossings:
   - crossing: {fileID: 6958573279840317159}
-    direction: 4
+    direction: 2
     avoidDirection: 0
     toAvoid: 0
 --- !u!1 &7253430340762355529
