@@ -84,11 +84,11 @@ public class Weapon : MonoBehaviour
         for (var i = -count; i < count; i++)
         {
             var point = Quaternion.AngleAxis((weaponType.angle / (2 * count)) * i, Vector3.up) * direction * (weaponType.range - 0.5f);
-            points.Add(origin + point);
+            points.Add(point);
         }
         
-        var attackTrail = Instantiate(trail, points[0], Quaternion.identity).GetComponent<AttackTrail>();
-        attackTrail.StartTrail(weaponType.cooldownDuration, points);
+        var attackTrail = Instantiate(trail, origin + points[0] + Vector3.up, Quaternion.identity).GetComponent<AttackTrail>();
+        attackTrail.StartTrail(weaponType.cooldownDuration, points, transform);
     }
 
     private void Update()

@@ -7,19 +7,19 @@ public class AttackTrail : MonoBehaviour
 {
     public TrailRenderer trailRenderer;
     
-    public void StartTrail(float duration, List<Vector3> points)
+    public void StartTrail(float duration, List<Vector3> points, Transform player)
     {
         duration = duration / 4.0f;
         trailRenderer.time = duration;
-        StartCoroutine(Move(points, duration));
+        StartCoroutine(Move(points, duration, player));
     }
 
-    IEnumerator Move(List<Vector3> points, float duration)
+    IEnumerator Move(List<Vector3> points, float duration, Transform player)
     {
         var index = 1;
         var progress = 0.0f;
         var startPos = transform.position;
-        var targetPos = points[index] + Vector3.up;
+        var targetPos = points[index] + Vector3.up + player.position;
         var distance = Vector3.Distance(startPos, targetPos);
 
         while (true)
@@ -38,7 +38,7 @@ public class AttackTrail : MonoBehaviour
                 }
                 
                 startPos = transform.position;
-                targetPos = points[index] + Vector3.up;
+                targetPos = points[index] + player.position + Vector3.up;
             }
             
             yield return null;
