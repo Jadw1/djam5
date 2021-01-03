@@ -9,7 +9,7 @@ public class RoomCreatorEditor : Editor
         DrawDefaultInspector();
 
         RoomCreator creator = (RoomCreator) target;
-        if (GUILayout.Button("Generate random room")) {
+        if (GUILayout.Button("Generate room")) {
             creator.GenerateRoom();
         }
     }

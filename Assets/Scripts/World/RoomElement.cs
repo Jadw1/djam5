@@ -37,4 +37,13 @@ public class RoomElement : MonoBehaviour {
     [Space(10)] 
     [Header("For enter")] 
     public Transform playerSpawnPoint;
+
+    private WorldCollider[] colliders;
+    
+    public void RegisterElement(Action collisionFunc) {
+        colliders = GetComponentsInChildren<WorldCollider>();
+        foreach (var collider in colliders) {
+            collider.RegisterCollider(collisionFunc);
+        }
+    }
 }

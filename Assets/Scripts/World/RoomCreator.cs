@@ -7,17 +7,28 @@ using UnityEngine;
 using UnityEngine.AI;
 using Random = System.Random;
 
+public enum GenerationProgress {
+    START,
+    WIP,
+    ERROR,
+    END,
+    IDLE
+}
+
 public class RoomCreator : MonoBehaviour {
+    public float waitFor = 0.1f;
     public RoomElement[] elements;
     public int minDepth = 5;
     public int maxDepth = 7;
 
     public GameObject playerPrefab;
     
-    private int seed = 0;
+    public int seed = 0;
     private NavMeshSurface navMesh;
     private Transform testRoom;
     private EnemySpawner spawner;
+
+    private bool generationFailed = false;
 
     struct StackElement {
         public Vector3 entryPoint;
@@ -39,42 +50,98 @@ public class RoomCreator : MonoBehaviour {
     private void Start() {
         navMesh = GetComponentInChildren<NavMeshSurface>();
         spawner = GetComponent<EnemySpawner>();
+    }
+    
+    private Transform newRoom;
+    private OutParams newParams;
+
+    private bool generateRoom;
+    private GenerationProgress progress;
+
+    private int counter;
+    private void Update() {
+        if(!generateRoom)
+            return;
+
+        if (progress == GenerationProgress.START) {
+            RandomSeed();
+            Debug.Log("Starting new generation.");
+
+            newParams = new OutParams {enemySpawns = new List<Transform>()};
+
+            progress = GenerationProgress.WIP;
+            counter++;
+            StartCoroutine(CreateRoom());
+        }
+        else if (progress == GenerationProgress.WIP) {
+            
+        }
+        else if (progress == GenerationProgress.ERROR) {
+            Destroy(newRoom.gameObject);
+            Debug.Log("GENERATION ERROR!!!");
+            progress = GenerationProgress.START;
+        }
+        else if (progress == GenerationProgress.END) {
+            if (generationFailed) {
+                progress = GenerationProgress.ERROR;
+                return;
+            }
+            
+            navMesh.BuildNavMesh();
+            
+            //spawner.SpawnEnemies(newParams.enemySpawns.ToArray(), 0.2f);
         
-        GenerateRoom();
+            //Transform player = Instantiate(playerPrefab).transform;
+            //player.position = newParams.playerSpawn.position;
+
+            generateRoom = false;
+            progress = GenerationProgress.IDLE;
+            Debug.Log($"Generation ended in {counter} attempts.");
+        }
+        
     }
 
-    private Transform CreateRoom(out OutParams parameters) {
+    private IEnumerator CreateRoom() {
         Random rng = new Random(seed);
-        Transform room = new GameObject("Room").transform;
+        newRoom = new GameObject("Room").transform;
+        newRoom.parent = transform;
         Stack<StackElement> stack = new Stack<StackElement>();
-        List<Transform> spawnPoints = new List<Transform>();
-        
+        generationFailed = false;
+
+
         RoomElement enter = elements
             .FirstOrDefault(e => e.type == ElementType.ENTER);
-        Transform enterTrans = Instantiate(enter, room).transform;
+        Transform enterTrans = Instantiate(enter, newRoom).transform;
         enterTrans.localPosition = Vector3.zero;
         
         RoomElement enterElement = enterTrans.GetComponent<RoomElement>();
+        enterElement.RegisterElement(ElementCollision);
         CrossingEntity crossing = enterElement.crossings[0];
-        parameters.playerSpawn = enterElement.playerSpawnPoint;
-        spawnPoints.AddRange(enterElement.enemySpawnPoints);
+        newParams.playerSpawn = enterElement.playerSpawnPoint;
+        newParams.enemySpawns.AddRange(enterElement.enemySpawnPoints);
 
         stack.Push(new StackElement(crossing.crossing.localPosition, crossing.direction, 1));
 
         int branches = 1;
         bool exitCreated = false;
         while (stack.Count > 0) {
+            if (generationFailed) {
+                progress = GenerationProgress.ERROR;
+                yield break;
+            }
+            
             StackElement el = stack.Pop();
             int requirements = SelectElements(el.depth, exitCreated, branches);
 
             RoomElement[] els = elements.Where(e => ((int) e.type & requirements) > 0).ToArray();
             RoomElement nextEl = els[rng.Next(0, els.Length)];
 
-            Transform tr = Instantiate(nextEl, room.transform).transform;
+            Transform tr = Instantiate(nextEl, newRoom.transform).transform;
             tr.localPosition = el.entryPoint;
             tr.localRotation = DirectionToRotation(el.direction);
             RoomElement re = tr.GetComponent<RoomElement>();
-            spawnPoints.AddRange(re.enemySpawnPoints);
+            re.RegisterElement(ElementCollision);
+            newParams.enemySpawns.AddRange(re.enemySpawnPoints);
             
 
             if (nextEl.type == ElementType.CROSSING) {
@@ -99,33 +166,32 @@ public class RoomCreator : MonoBehaviour {
             if (nextEl.type == ElementType.EXIT || nextEl.type == ElementType.DEAD_END) {
                 branches--;
             }
+            
+            yield return new WaitForSeconds(waitFor);
         }
-
-        parameters.enemySpawns = spawnPoints;
-        return room;
+        
+        yield return new WaitForSeconds(waitFor);
+        
+        progress = GenerationProgress.END;
     }
 
     private void RandomSeed() {
-        if (seed == 0) {
-            seed = (int)DateTime.Now.Ticks;
-        }
+        seed = (int)DateTime.Now.Ticks;
     }
     
     public void GenerateRoom() {
-        RandomSeed();
-        OutParams parameters;
+        if (generateRoom) {
+            Debug.Log("Already generating!");
+            return;
+        }
 
-        
-        testRoom = CreateRoom(out parameters);
-        testRoom.parent = transform;
-        navMesh.BuildNavMesh();
+        if (newRoom) {
+            Destroy(newRoom.gameObject);
+        }
 
-        spawner.SpawnEnemies(parameters.enemySpawns.ToArray(), 0.2f);
-        
-        Transform player = Instantiate(playerPrefab).transform;
-        player.position = parameters.playerSpawn.position;
-        
-        
+        generateRoom = true;
+        progress = GenerationProgress.START;
+        counter = 0;
     }
 
     private int SelectElements(int depth, bool exitCreated, int branches) {
@@ -149,6 +215,10 @@ public class RoomCreator : MonoBehaviour {
         return types;
     }
 
+    private void ElementCollision() {
+        generationFailed = true;
+    }
+    
     private static Quaternion DirectionToRotation(Direction direction) {
         float angle = 0.0f;
         switch (direction) {

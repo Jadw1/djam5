@@ -9,8 +9,8 @@ public class CameraController : MonoBehaviour {
 
     private void FixedUpdate() {
         if (!player) { 
-            player = GameObject.FindWithTag("Player").transform;
-            if(player)
+            player = GameObject.FindWithTag("Player")?.transform;
+            if(!player)
                 return;
         }
 
