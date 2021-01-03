@@ -50,13 +50,21 @@ public class RoomCreator : MonoBehaviour {
     private void Start() {
         navMesh = GetComponentInChildren<NavMeshSurface>();
         spawner = GetComponent<EnemySpawner>();
+        
+        GenerateRoom();
     }
     
     private Transform newRoom;
     private OutParams newParams;
+    
+    private Transform currentRoom;
+    private OutParams currentParams;
+    
+    private Transform oldRoom;
+    private OutParams oldParams;
 
     private bool generateRoom;
-    private GenerationProgress progress;
+    private GenerationProgress progress = GenerationProgress.IDLE;
 
     private int counter;
     private void Update() {
@@ -90,21 +98,23 @@ public class RoomCreator : MonoBehaviour {
             navMesh.BuildNavMesh();
             
             //spawner.SpawnEnemies(newParams.enemySpawns.ToArray(), 0.2f);
-        
-            //Transform player = Instantiate(playerPrefab).transform;
-            //player.position = newParams.playerSpawn.position;
 
             generateRoom = false;
             progress = GenerationProgress.IDLE;
             Debug.Log($"Generation ended in {counter} attempts.");
+
+            if (firstLevel) {
+                LoadFirstLevel();
+            }
         }
         
     }
 
     private IEnumerator CreateRoom() {
         Random rng = new Random(seed);
-        newRoom = new GameObject("Room").transform;
+        newRoom = new GameObject("New Room").transform;
         newRoom.parent = transform;
+        newRoom.position = new Vector3(0.0f, 200.0f, 0.0f);
         Stack<StackElement> stack = new Stack<StackElement>();
         generationFailed = false;
 
@@ -137,7 +147,8 @@ public class RoomCreator : MonoBehaviour {
             RoomElement nextEl = els[rng.Next(0, els.Length)];
 
             Transform tr = Instantiate(nextEl, newRoom.transform).transform;
-            tr.localPosition = el.entryPoint;
+            Vector3 pos = new Vector3(el.entryPoint.x, 0.0f, el.entryPoint.z);
+            tr.localPosition = pos;
             tr.localRotation = DirectionToRotation(el.direction);
             RoomElement re = tr.GetComponent<RoomElement>();
             re.RegisterElement(ElementCollision);
@@ -185,10 +196,6 @@ public class RoomCreator : MonoBehaviour {
         if (generateRoom) {
             Debug.Log("Already generating!");
             return;
-        }
-
-        if (newRoom) {
-            Destroy(newRoom.gameObject);
         }
 
         generateRoom = true;
@@ -257,5 +264,23 @@ public class RoomCreator : MonoBehaviour {
         }
 
         return Direction.FORWARD;
+    }
+
+    private bool firstLevel = true;
+    public int levelCounter = 0;
+    private void LoadFirstLevel() {
+        currentRoom = newRoom;
+        currentParams = newParams;
+        
+        currentRoom.name = "Room";
+        currentRoom.localPosition = new Vector3();
+        
+        Transform player = Instantiate(playerPrefab).transform;
+        player.position = newParams.playerSpawn.position;
+
+        levelCounter++;
+        firstLevel = false;
+        
+        GenerateRoom();
     }
 }

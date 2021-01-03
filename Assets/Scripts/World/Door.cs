@@ -69,8 +69,10 @@ public class Door : MonoBehaviour
         _animator.SetBool("opened", _isOpen);
     }
     
-    private void Open()
-    {
+    private void Open() {
+        RoomCreator creator = GameObject.FindGameObjectWithTag("RoomCreator").GetComponent<RoomCreator>();
+        //creator.LoadNextLevel(transform);
+        
         foreach (var mutation in _mutations)
         {
             _player.AddMutation(mutation);
@@ -88,6 +90,9 @@ public class Door : MonoBehaviour
     {
         _isOpen = false;
         UpdateAnim();
+        
+        RoomCreator creator = GameObject.FindGameObjectWithTag("RoomCreator").GetComponent<RoomCreator>();
+        //creator.DestroyOldLevel();
     }
 
     private void Update()

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NavMesh
   - Exit
+  - RoomCreator
   layers:
   - Default
   - TransparentFX
