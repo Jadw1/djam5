@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -33,14 +34,12 @@ public class Player : Entity<PlayerStats>
     
     void PauseGame()
     {
-        ui.blend.SetActive(true);
         ui.PauseScreen();
     }
 
     public void ResumeGame()
     {
-        ui.blend.SetActive(false);
-        Time.timeScale = 1;
+        ui.Resume();
     }
 
     public override void TakeDamage(float damage)
@@ -55,6 +54,5 @@ public class Player : Entity<PlayerStats>
         Debug.Log("You died!");
         Destroy(body);
         ui.EndScreen();
-        //SceneManager.LoadScene("DevArcana");
     }
 }
