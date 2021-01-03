@@ -167,10 +167,12 @@ public class RoomCreator : MonoBehaviour {
                 branches--;
             }
             
-            yield return new WaitForSeconds(waitFor);
+            //yield return new WaitForSeconds(waitFor);
+            yield return new WaitForFixedUpdate();
         }
         
-        yield return new WaitForSeconds(waitFor);
+        //yield return new WaitForSeconds(waitFor);
+        yield return new WaitForFixedUpdate();
         
         progress = GenerationProgress.END;
     }

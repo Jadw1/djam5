@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daa9d325071cb1747bceda49502e2bb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waitFor: 0.025
+  waitFor: 0.01
   elements:
   - {fileID: 9215059195783266140, guid: ebad9665e37b04241b73ca0ebaed4a53, type: 3}
   - {fileID: 3073587574867628913, guid: 87c8e741930bf5a4ea2bf4ec26ebd508, type: 3}
