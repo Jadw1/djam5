@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.AI;
@@ -18,7 +20,7 @@ public class Enemy : Entity<EnemyStats>
     private Animator _animator;
     private AudioSource _audioSource;
 
-    private Player _player;
+    protected Player _player;
 
     private float _cooldown;
     private static readonly int Attack = Animator.StringToHash("Attack");
@@ -40,6 +42,11 @@ public class Enemy : Entity<EnemyStats>
     {
         // TODO: Make sense
         return Vector3.Distance(_player.transform.position, transform.position) <= _stats.size;
+    }
+    
+    private bool IsPlayerVisible()
+    {
+        return Vector3.Distance(_player.transform.position, transform.position) <= 10.0f;
     }
 
     private bool CanAttack()
@@ -63,16 +70,25 @@ public class Enemy : Entity<EnemyStats>
     private void Update()
     {
         if (!_player) {
+            Debug.LogError("NO PLAYER FOUND");
+            return;
+        }
+        
+        if (_stats.health < 0)
+        {
             return;
         }
 
-        if (IsPlayerInRange() && CanAttack())
+        if (IsPlayerVisible())
         {
-            //AttackPlayer();
-        }
-        else
-        {
-            //GoToPlayer();
+            if (IsPlayerInRange() && CanAttack())
+            {
+                AttackPlayer();
+            }
+            else
+            {
+                GoToPlayer();
+            }
         }
     }
 
@@ -82,6 +98,11 @@ public class Enemy : Entity<EnemyStats>
 
     public override void TakeDamage(float amount)
     {
+        if (_stats.health < 0)
+        {
+            return;
+        }
+        
         if (_stats.health - amount > 0)
         {
             _audioSource.PlayOneShot(onHit);
@@ -95,6 +116,11 @@ public class Enemy : Entity<EnemyStats>
     {
         PointsManager.Instance.AddPoint();
         _audioSource.PlayOneShot(onDeath);
+        StartCoroutine(DelayDeath());
+    }
+    
+    IEnumerator DelayDeath(){
+        yield return new WaitForSeconds(onDeath.length);
         base.Die();
     }
 

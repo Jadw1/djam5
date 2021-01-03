@@ -11,7 +11,7 @@ public class RangedEnemy : Enemy
 
     protected override void OnAttacking()
     {
-        var forward = transform.forward;
+        var forward = (_player.transform.position - transform.position).normalized;
         Instantiate(projectile, transform.position + forward * 0.35f + Vector3.up, Quaternion.LookRotation(forward));
     }
 }
