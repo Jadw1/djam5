@@ -17,12 +17,17 @@ public class Door : MonoBehaviour
     public List<StatsMutation> availableMutations;
     public List<WeaponMutation> weaponMutations;
     private List<Mutation> _mutations;
-
-    public string afterOpenText = "No mutations left.";
+    private string _message;
+    private bool _locked;
     
+    public string afterOpenText = "No mutations left.";
+    public string lockedText = "The door is locked.";
+
     private void Start()
     {
         _animator = GetComponent<Animator>();
+        _message = helperText.text;
+        helperText.SetText(lockedText);
         PopulateMutations();
     }
 
@@ -42,9 +47,16 @@ public class Door : MonoBehaviour
             .OrderBy(x => Guid.NewGuid())
             .Take(2)
             .ToList();
-        
+    }
+    
+    public delegate void OpenEvent(Door door);
+    public event OpenEvent OnOpen;
+
+    public void Unlock()
+    {
+        _locked = false;
         // display selected
-        var builder = new StringBuilder(helperText.text);
+        var builder = new StringBuilder(_message);
         foreach (var mutation in _mutations)
         {
             builder.AppendLine(mutation.name);
@@ -69,6 +81,7 @@ public class Door : MonoBehaviour
         helperText.SetText(afterOpenText);
         _isOpen = true;
         UpdateAnim();
+        OnOpen?.Invoke(this);
     }
 
     private void Close()
@@ -110,7 +123,7 @@ public class Door : MonoBehaviour
         {
             _player = playerStats;
             helperText.enabled = true;
-            _canBeOpened = true;
+            _canBeOpened = !_locked;
         }
     }
 }
