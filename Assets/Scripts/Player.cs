@@ -25,6 +25,13 @@ public class Player : Entity<PlayerStats>
         ui = GetComponentInChildren<UserInterface>();
         ui.healthBar.SetMaxHealth(_stats.maxHealth);
         _audioSource = GetComponent<AudioSource>();
+
+        _stats.OnMutationEvent += OnMutation;
+    }
+
+    private void OnMutation(Mutation mutation)
+    {
+        ui.mutationsList.AddMutation(mutation);
     }
 
     private void Update()
