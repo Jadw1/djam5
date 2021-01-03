@@ -22,7 +22,7 @@ public class Enemy : Entity<EnemyStats>
     private float _cooldown;
     private static readonly int Attack = Animator.StringToHash("Attack");
 
-    private void Start() 
+    protected void Start() 
     {
         Init();
         _agent = GetComponent<NavMeshAgent>();
@@ -51,6 +51,11 @@ public class Enemy : Entity<EnemyStats>
         // TODO: Make sense
         _cooldown = Time.time + _stats.dexterity;
         _animator.SetTrigger(Attack);
+        OnAttacking();
+    }
+
+    protected virtual void OnAttacking()
+    {
         _player.TakeDamage(_stats.damage);
     }
 
