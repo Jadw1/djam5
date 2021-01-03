@@ -37,7 +37,8 @@ public class RoomCreator : MonoBehaviour {
 
         RoomElement enter = elements
             .FirstOrDefault(e => e.type == ElementType.ENTER);
-        Instantiate(enter, room.transform);
+        Transform enterTrans = Instantiate(enter, room.transform).transform;
+        enterTrans.localPosition = Vector3.zero;
         CrossingEntity crossing = enter.crossings[0];
         stack.Push(new StackElement(crossing.crossing.localPosition, crossing.direction, 1));
 
@@ -53,14 +54,17 @@ public class RoomCreator : MonoBehaviour {
             Transform tr = Instantiate(nextEl, room.transform).transform;
             tr.localPosition = el.entryPoint;
             tr.localRotation = DirectionToRotation(el.direction);
+            RoomElement re = tr.GetComponent<RoomElement>();
+            
 
             if (nextEl.type == ElementType.CROSSING) {
-                CrossingEntity ce = nextEl.crossings[0];
+                CrossingEntity ce = re.crossings[0];
                 
                 StackElement newStackElement = new StackElement();
                 newStackElement.depth = el.depth + 1;
                 newStackElement.direction = CalculateDirection(el.direction, ce.direction);
-                newStackElement.entryPoint = tr.localPosition + ce.crossing.localPosition;
+                //newStackElement.entryPoint = tr.localPosition + ce.crossing.localPosition;
+                newStackElement.entryPoint = ce.crossing.position;
                 
                 stack.Push(newStackElement);
             }

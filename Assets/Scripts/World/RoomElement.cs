@@ -11,10 +11,10 @@ public enum Direction {
 }
 
 public enum ElementType {
-    ENTER,
-    CROSSING,
-    EXIT,
-    DEAD_END
+    ENTER = (1 << 0),
+    CROSSING = (1 << 1),
+    EXIT = (1 << 2),
+    DEAD_END = (1 << 3)
 }
 
 [Serializable]
