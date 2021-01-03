@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42a26054389abc94799e7d06d0735e3d, type: 3}
-  m_Name: Good
+  m_Name: Lightweightness
   m_EditorClassIdentifier: 
-  name: Good Mutation
-  description: 
+  name: Lightweightness
+  description: You are light as a feather!
   type: 1
-  effect: 0
+  effect: 1
   modifiers:
-    health: 40
+    health: -20
     maxHealth: 0
     speed: 5
     size: 0
-    strength: 0
-    dexterity: 0
+    strength: -3
+    dexterity: 5

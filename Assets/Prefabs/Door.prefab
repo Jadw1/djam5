@@ -350,6 +350,8 @@ MonoBehaviour:
   availableMutations:
   - {fileID: 11400000, guid: 44da3b157d0803a499deac4a14f926e2, type: 2}
   - {fileID: 11400000, guid: 7267bd639598fa449be8b692c50108af, type: 2}
+  - {fileID: 11400000, guid: 051c7a1c5c07f1c4794e3918c6073934, type: 2}
+  - {fileID: 11400000, guid: 2fba5ae3e3eb05c44bbafd43eb10433d, type: 2}
   weaponMutations:
   - {fileID: 11400000, guid: 20fdd25b436ccc7459f78699a3ed80ca, type: 2}
   - {fileID: 11400000, guid: ddbb221782af26f49b80891d570cdca8, type: 2}
