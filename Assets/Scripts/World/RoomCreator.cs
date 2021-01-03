@@ -32,6 +32,7 @@ public class RoomCreator : MonoBehaviour {
 
     struct OutParams {
         public Transform playerSpawn;
+        public List<Transform> enemySpawns;
     }
 
     private void Start() {
@@ -44,6 +45,7 @@ public class RoomCreator : MonoBehaviour {
         Random rng = new Random(seed);
         Transform room = new GameObject("Room").transform;
         Stack<StackElement> stack = new Stack<StackElement>();
+        List<Transform> spawnPoints = new List<Transform>();
         
         RoomElement enter = elements
             .FirstOrDefault(e => e.type == ElementType.ENTER);
@@ -53,7 +55,8 @@ public class RoomCreator : MonoBehaviour {
         RoomElement enterElement = enterTrans.GetComponent<RoomElement>();
         CrossingEntity crossing = enterElement.crossings[0];
         parameters.playerSpawn = enterElement.playerSpawnPoint;
-        
+        spawnPoints.AddRange(enterElement.enemySpawnPoints);
+
         stack.Push(new StackElement(crossing.crossing.localPosition, crossing.direction, 1));
 
         int branches = 1;
@@ -69,6 +72,7 @@ public class RoomCreator : MonoBehaviour {
             tr.localPosition = el.entryPoint;
             tr.localRotation = DirectionToRotation(el.direction);
             RoomElement re = tr.GetComponent<RoomElement>();
+            spawnPoints.AddRange(re.enemySpawnPoints);
             
 
             if (nextEl.type == ElementType.CROSSING) {
@@ -87,6 +91,7 @@ public class RoomCreator : MonoBehaviour {
             }
         }
 
+        parameters.enemySpawns = spawnPoints;
         return room;
     }
 
@@ -98,14 +103,19 @@ public class RoomCreator : MonoBehaviour {
     
     public void GenerateRoom() {
         RandomSeed();
-
         OutParams parameters;
+
+        
         testRoom = CreateRoom(out parameters);
         testRoom.parent = transform;
         navMesh.BuildNavMesh();
 
+        
+        
         Transform player = Instantiate(playerPrefab).transform;
         player.position = parameters.playerSpawn.position;
+        
+        
     }
 
     private int SelectElements(int depth, bool exitCreated, int branches) {
