@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -9,6 +10,7 @@ public class MainMenu : MonoBehaviour
     public Button play;
     public Button settings;
     public Button exit;
+    public UI.Settings Settings;
     
     void Start()
     {
@@ -24,7 +26,7 @@ public class MainMenu : MonoBehaviour
     
     private void OpenSettings()
     {
-        throw new System.NotImplementedException();
+        Settings.gameObject.SetActive(true);
     }
     
     private void ExitGame()
