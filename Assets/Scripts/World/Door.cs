@@ -1,35 +1,116 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using TMPro;
 using UnityEngine;
 
-public class Door : MonoBehaviour {
-    public Mutation[] mutations;
+public class Door : MonoBehaviour
+{
+    public TextMeshPro helperText;
+    
+    private Animator _animator;
+    private bool _isOpen;
+    private bool _canBeOpened;
+    private PlayerStats _player;
 
-    private bool opened = false;
-    private Transform door;
-    private Animator animator;
+    public List<StatsMutation> availableMutations;
+    public List<WeaponMutation> weaponMutations;
+    private List<Mutation> _mutations;
 
-    private void Start() {
-        door = transform.GetChild(0);
-        animator = GetComponent<Animator>();
+    public string afterOpenText = "No mutations left.";
+    
+    private void Start()
+    {
+        _animator = GetComponent<Animator>();
+        PopulateMutations();
+    }
+
+    private void PopulateMutations()
+    {
+        // randomize
+        var weaponMutation = weaponMutations
+            .OrderBy(x => Guid.NewGuid())
+            .FirstOrDefault();
+
+        var mutations = new List<Mutation>();
         
-        animator.SetBool("opened", opened);
+        mutations.Add(weaponMutation);
+        mutations.AddRange(availableMutations);
+        
+        _mutations = mutations
+            .OrderBy(x => Guid.NewGuid())
+            .Take(2)
+            .ToList();
+        
+        // display selected
+        var builder = new StringBuilder(helperText.text);
+        foreach (var mutation in _mutations)
+        {
+            builder.AppendLine(mutation.name);
+        }
+        helperText.SetText(builder.ToString());
     }
 
-    private void OnTriggerEnter(Collider other) {
-        Debug.Log($"Available mutations: ${mutations.Length}");
+    private void UpdateAnim()
+    {
+        _animator.SetBool("opened", _isOpen);
+    }
+    
+    private void Open()
+    {
+        foreach (var mutation in _mutations)
+        {
+            _player.AddMutation(mutation);
+        }
+        
+        _mutations.Clear();
+
+        helperText.SetText(afterOpenText);
+        _isOpen = true;
+        UpdateAnim();
     }
 
-    private void OnTriggerStay(Collider other) {
-        if (!opened && Input.GetKeyDown(KeyCode.E)) {
-            opened = true;
-            animator.SetBool("opened", opened);
+    private void Close()
+    {
+        _isOpen = false;
+        UpdateAnim();
+    }
+
+    private void Update()
+    {
+        if (_canBeOpened && !_isOpen && Input.GetKeyDown(KeyCode.E))
+        {
+            Open();
         }
     }
 
-    private void OnTriggerExit(Collider other) {
-        opened = false;
-        animator.SetBool("opened", opened);
+    private void OnTriggerExit(Collider other)
+    {
+        var playerStats = other.GetComponent<PlayerStats>();
+        
+        if (playerStats != null)
+        {
+            _player = null;
+            helperText.enabled = false;
+            _canBeOpened = false;
+
+            if (_isOpen)
+            {
+                Close();
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        var playerStats = other.GetComponent<PlayerStats>();
+
+        if (playerStats != null)
+        {
+            _player = playerStats;
+            helperText.enabled = true;
+            _canBeOpened = true;
+        }
     }
 }
