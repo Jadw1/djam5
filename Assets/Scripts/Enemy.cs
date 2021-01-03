@@ -1,3 +1,4 @@
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -92,7 +93,7 @@ public class Enemy : Entity<EnemyStats>
 
     protected override void Die()
     {
-        
+        PointsManager.Instance.AddPoint();
         _audioSource.PlayOneShot(onDeath);
         base.Die();
     }
