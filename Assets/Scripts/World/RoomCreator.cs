@@ -11,8 +11,10 @@ public class RoomCreator : MonoBehaviour {
     public RoomElement[] elements;
     public int minDepth = 5;
     public int maxDepth = 7;
-    public int seed = 0;
 
+    public GameObject playerPrefab;
+    
+    private int seed = 0;
     private NavMeshSurface navMesh;
     private Transform testRoom;
 
@@ -28,21 +30,30 @@ public class RoomCreator : MonoBehaviour {
         }
     }
 
-    private void Start() {
-        navMesh = GetComponentInChildren<NavMeshSurface>();
+    struct OutParams {
+        public Transform playerSpawn;
     }
 
-    public Transform CreateRoom() {
-        Random rng = new Random(seed);
+    private void Start() {
+        navMesh = GetComponentInChildren<NavMeshSurface>();
         
+        GenerateRoom();
+    }
+
+    private Transform CreateRoom(out OutParams parameters) {
+        Random rng = new Random(seed);
         Transform room = new GameObject("Room").transform;
         Stack<StackElement> stack = new Stack<StackElement>();
-
+        
         RoomElement enter = elements
             .FirstOrDefault(e => e.type == ElementType.ENTER);
         Transform enterTrans = Instantiate(enter, room).transform;
         enterTrans.localPosition = Vector3.zero;
-        CrossingEntity crossing = enter.crossings[0];
+        
+        RoomElement enterElement = enterTrans.GetComponent<RoomElement>();
+        CrossingEntity crossing = enterElement.crossings[0];
+        parameters.playerSpawn = enterElement.playerSpawnPoint;
+        
         stack.Push(new StackElement(crossing.crossing.localPosition, crossing.direction, 1));
 
         int branches = 1;
@@ -71,6 +82,9 @@ public class RoomCreator : MonoBehaviour {
                 
                 stack.Push(newStackElement);
             }
+            else if (nextEl.type == ElementType.EXIT) {
+                exitCreated = true;
+            }
         }
 
         return room;
@@ -84,9 +98,14 @@ public class RoomCreator : MonoBehaviour {
     
     public void GenerateRoom() {
         RandomSeed();
-        testRoom = CreateRoom();
+
+        OutParams parameters;
+        testRoom = CreateRoom(out parameters);
         testRoom.parent = transform;
         navMesh.BuildNavMesh();
+
+        Transform player = Instantiate(playerPrefab).transform;
+        player.position = parameters.playerSpawn.position;
     }
 
     private int SelectElements(int depth, bool exitCreated, int branches) {

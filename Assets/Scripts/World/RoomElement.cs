@@ -33,4 +33,8 @@ public class RoomElement : MonoBehaviour {
     
     public Transform[] enemySpawnPoints = new Transform[0];
     public List<CrossingEntity> crossings = new List<CrossingEntity>(0);
+    
+    [Space(10)] 
+    [Header("For enter")] 
+    public Transform playerSpawnPoint;
 }
