@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,8 +10,12 @@ public class Enemy : Entity<EnemyStats>
     private NavMeshAgent _agent;
     private Rigidbody _rigidbody;
     private ParticleSystem _particleSystem;
+    private Animator _animator;
 
-    private Transform _player;
+    private Player _player;
+
+    private float _cooldown;
+    private static readonly int Attack = Animator.StringToHash("Attack");
 
     private void Start() 
     {
@@ -20,21 +23,49 @@ public class Enemy : Entity<EnemyStats>
         _agent = GetComponent<NavMeshAgent>();
         _rigidbody = GetComponent<Rigidbody>();
         _particleSystem = GetComponent<ParticleSystem>();
+        _animator = GetComponent<Animator>();
 
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        _cooldown = Time.time;
+    }
+
+    private bool IsPlayerInRange()
+    {
+        // TODO: Make sense
+        return Vector3.Distance(_player.transform.position, transform.position) <= _stats.size;
+    }
+
+    private bool CanAttack()
+    {
+        return _cooldown <= Time.time;
+    }
+
+    private void AttackPlayer()
+    {
+        // TODO: Make sense
+        _cooldown = Time.time + _stats.dexterity;
+        _animator.SetTrigger(Attack);
+        _player.TakeDamage(_stats.damage);
     }
 
     private void Update()
     {
-        GoToPlayer();
-    }
-
-    private void GoToPlayer() {
         if (!_player) {
             return;
         }
 
-        _agent.SetDestination(_player.position);
+        if (IsPlayerInRange() && CanAttack())
+        {
+            AttackPlayer();
+        }
+        else
+        {
+            GoToPlayer();
+        }
+    }
+
+    private void GoToPlayer() {
+        _agent.SetDestination(_player.transform.position);
     }
 
     public override void TakeDamage(float amount)

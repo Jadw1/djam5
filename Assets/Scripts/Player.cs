@@ -43,15 +43,6 @@ public class Player : Entity<PlayerStats>
         Time.timeScale = 1;
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.layer == 3)
-        {
-            var enemy = collision.gameObject.GetComponent<Enemy>();
-            TakeDamage(enemy._stats.damage);
-        }
-    }
-
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
