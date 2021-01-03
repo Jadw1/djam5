@@ -1,21 +1,22 @@
+using System;
 using UnityEngine;
 using System.Collections;
 
 public class CameraController : MonoBehaviour {
+    private Transform player;
+    public float smoothSpeed = 10f;
+    public Vector3 offset;
 
-    public GameObject player;
-    private Vector3 _offset;
-
-    private void LateUpdate () 
-    {
-        if (!player) {
-            player = GameObject.FindWithTag("Player");
+    private void FixedUpdate() {
+        if (!player) { 
+            player = GameObject.FindWithTag("Player").transform;
             if(player)
                 return;
-            else
-                _offset = transform.position - player.transform.position;
         }
-        
-        transform.position = player.transform.position + _offset;
+
+        Vector3 destination = player.position + offset;
+        Vector3 smoothed = Vector3.Lerp(transform.position, destination, smoothSpeed * Time.deltaTime);
+        transform.position = smoothed;
     }
+
 }
