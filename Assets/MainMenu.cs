@@ -21,7 +21,7 @@ public class MainMenu : MonoBehaviour
     
     private void PlayGame()
     {
-        SceneManager.LoadScene("Levels");
+        SceneManager.LoadScene("Loading");
     }
     
     private void OpenSettings()
