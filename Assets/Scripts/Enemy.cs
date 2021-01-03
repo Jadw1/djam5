@@ -5,12 +5,16 @@ using UnityEngine.AI;
 [RequireComponent(typeof(ParticleSystem))]
 [RequireComponent(typeof(EnemyStats))]
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(AudioSource))]
 public class Enemy : Entity<EnemyStats>
 {
+    public AudioClip onHit;
+    
     private NavMeshAgent _agent;
     private Rigidbody _rigidbody;
     private ParticleSystem _particleSystem;
     private Animator _animator;
+    private AudioSource _audioSource;
 
     private Player _player;
 
@@ -24,6 +28,7 @@ public class Enemy : Entity<EnemyStats>
         _rigidbody = GetComponent<Rigidbody>();
         _particleSystem = GetComponent<ParticleSystem>();
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
 
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         _cooldown = Time.time;
@@ -71,6 +76,7 @@ public class Enemy : Entity<EnemyStats>
     public override void TakeDamage(float amount)
     {
         base.TakeDamage(amount);
+        _audioSource.PlayOneShot(onHit);
         _particleSystem.Play();
     }
 

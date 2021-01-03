@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Weapon : MonoBehaviour
 {
     public Transform hand;
     public GameObject trail;
+
+    public AudioClip[] swishes;
 
     private bool _underCooldown;
     private float _cooldown;
@@ -13,6 +16,7 @@ public class Weapon : MonoBehaviour
     private PlayerMovement _playerMovement;
     private Animator _animator;
     private GameObject _weaponPrefab;
+    private AudioSource _audioSource;
 
     public WeaponType weaponType;
     private static readonly int AttackSpeed = Animator.StringToHash("AttackSpeed");
@@ -23,6 +27,7 @@ public class Weapon : MonoBehaviour
         _cooldown = Time.time;
         _playerMovement = gameObject.GetComponent<PlayerMovement>();
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
         SetWeaponType(weaponType);
     }
 
@@ -39,8 +44,15 @@ public class Weapon : MonoBehaviour
         _animator.SetFloat(AttackSpeed, 1.0f / type.cooldownDuration);
     }
 
+    private void PlaySwish()
+    {
+        var swishIndex = Random.Range(0, swishes.Length);
+        _audioSource.PlayOneShot(swishes[swishIndex]);
+    }
+
     private void Attack()
     {
+        PlaySwish();
         var position = transform.position;
         var points = new List<Vector3>();
         foreach (var result in Physics.OverlapSphere(position, weaponType.range, _layerMask))
