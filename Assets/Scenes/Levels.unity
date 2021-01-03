@@ -198,7 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2480216a2db7b64cbf326775b98578b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemies: []
+  enemies:
+  - {fileID: 7173859376833445594, guid: db2d9decc1a0a844691e8a23682c7c2b, type: 3}
+  - {fileID: 4873448506408941338, guid: a27a743b3e320b144aba5bcbf2022adc, type: 3}
 --- !u!1 &294397836
 GameObject:
   m_ObjectHideFlags: 0

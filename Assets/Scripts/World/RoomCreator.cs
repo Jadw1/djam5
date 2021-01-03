@@ -17,6 +17,7 @@ public class RoomCreator : MonoBehaviour {
     private int seed = 0;
     private NavMeshSurface navMesh;
     private Transform testRoom;
+    private EnemySpawner spawner;
 
     struct StackElement {
         public Vector3 entryPoint;
@@ -37,6 +38,7 @@ public class RoomCreator : MonoBehaviour {
 
     private void Start() {
         navMesh = GetComponentInChildren<NavMeshSurface>();
+        spawner = GetComponent<EnemySpawner>();
         
         GenerateRoom();
     }
@@ -97,7 +99,7 @@ public class RoomCreator : MonoBehaviour {
 
     private void RandomSeed() {
         if (seed == 0) {
-            seed = (int)System.DateTime.Now.Ticks;
+            seed = (int)DateTime.Now.Ticks;
         }
     }
     
@@ -110,7 +112,7 @@ public class RoomCreator : MonoBehaviour {
         testRoom.parent = transform;
         navMesh.BuildNavMesh();
 
-        
+        spawner.SpawnEnemies(parameters.enemySpawns.ToArray());
         
         Transform player = Instantiate(playerPrefab).transform;
         player.position = parameters.playerSpawn.position;
