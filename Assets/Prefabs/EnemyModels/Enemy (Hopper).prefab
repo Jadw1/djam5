@@ -5220,6 +5220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _stats: {fileID: 7800770181453877871}
   onHit: {fileID: 8300000, guid: d03c824771a86ff4d80bb4302ff6e46d, type: 3}
+  onDeath: {fileID: 8300000, guid: 26564eabfd155104f85da0f230007cbc, type: 3}
 --- !u!82 &8769703782726639985
 AudioSource:
   m_ObjectHideFlags: 0

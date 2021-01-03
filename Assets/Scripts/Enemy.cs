@@ -9,6 +9,7 @@ using UnityEngine.AI;
 public class Enemy : Entity<EnemyStats>
 {
     public AudioClip onHit;
+    public AudioClip onDeath;
     
     private NavMeshAgent _agent;
     private Rigidbody _rigidbody;
@@ -75,9 +76,20 @@ public class Enemy : Entity<EnemyStats>
 
     public override void TakeDamage(float amount)
     {
+        if (_stats.health - amount > 0)
+        {
+            _audioSource.PlayOneShot(onHit);
+        }
+        
         base.TakeDamage(amount);
-        _audioSource.PlayOneShot(onHit);
         _particleSystem.Play();
+    }
+
+    protected override void Die()
+    {
+        
+        _audioSource.PlayOneShot(onDeath);
+        base.Die();
     }
 
     public void PushBack(Vector3 origin, float force)
