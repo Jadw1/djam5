@@ -70,8 +70,11 @@ public class Door : MonoBehaviour
     public event OpenEvent OnOpen;
     
     private void Open() {
-        DestroyLevel();
-        LoadLevel();
+        if (!LoadLevel())
+        {
+            helperText.SetText("Our dev team is preparing the next level, please wait!");
+        }
+        
         foreach (var mutation in _mutations)
         {
             _player.AddMutation(mutation);
@@ -97,10 +100,7 @@ public class Door : MonoBehaviour
     private void DestroyLevel()
     {
         RoomCreator creator = GameObject.FindGameObjectWithTag("RoomCreator").GetComponent<RoomCreator>();
-        if (creator.levelCounter > 1)
-        {
-            creator.DestroyOldLevel();
-        }
+        creator.DestroyOldLevel();
     }
 
     private void Close()
@@ -125,6 +125,19 @@ public class Door : MonoBehaviour
         
         if (playerStats != null)
         {
+            var playerPos = playerStats.transform.position;
+            var difference = playerPos - transform.position;
+            difference = difference.normalized;
+            var dot = Vector3.Dot(difference, transform.forward);
+
+            if (dot > 0 && _isOpen)
+            {
+                DestroyLevel();
+                Close();
+            }
+            
+            Debug.Log(dot);
+            
             _player = null;
             helperText.enabled = false;
             _canBeOpened = false;
