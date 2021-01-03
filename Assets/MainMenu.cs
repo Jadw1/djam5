@@ -21,7 +21,7 @@ public class MainMenu : MonoBehaviour
     
     private void PlayGame()
     {
-        SceneManager.LoadScene("DevArcana");
+        SceneManager.LoadScene("Levels");
     }
     
     private void OpenSettings()
