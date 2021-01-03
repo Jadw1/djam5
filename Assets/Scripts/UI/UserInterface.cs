@@ -9,6 +9,7 @@ namespace UI
         public HealthBar healthBar;
         public DeadScreen deadScreen;
         public PauseScreen pauseScreen;
+        public MutationsList mutationsList;
 
         public void PauseScreen()
         {

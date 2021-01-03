@@ -22,6 +22,8 @@ public class PlayerStats : Stats
     public Mutation mutation2;
     public Mutation mutation3;
 
+    public delegate void OnMutationEventHandler(Mutation mutation);
+    public event OnMutationEventHandler OnMutationEvent;
 
     private void Start()
     {
@@ -68,6 +70,7 @@ public class PlayerStats : Stats
         }
         else if (mutation.type == MutationType.StatsMutationType)
         {
+            OnMutationEvent?.Invoke(mutation);
             StatsMutation statsMutation = mutation as StatsMutation;
             ApplyDeltaStats(statsMutation.modifiers);
         }
