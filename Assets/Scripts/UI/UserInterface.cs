@@ -40,7 +40,7 @@ namespace UI
         void PlayAgain()
         {
             Time.timeScale = 1;
-            SceneManager.LoadScene("DevArcana");
+            SceneManager.LoadScene("Levels");
         }
 
         void MainMenu()

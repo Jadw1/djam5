@@ -5204,7 +5204,7 @@ MonoBehaviour:
   speed: 5
   size: 4
   strength: 1
-  dexterity: 6
+  dexterity: 4
   damage: 10
 --- !u!82 &8769703782726639985
 AudioSource:
