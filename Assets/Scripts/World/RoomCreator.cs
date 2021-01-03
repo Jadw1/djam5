@@ -94,10 +94,6 @@ public class RoomCreator : MonoBehaviour {
                 progress = GenerationProgress.ERROR;
                 return;
             }
-            
-            navMesh.BuildNavMesh();
-            
-            //spawner.SpawnEnemies(newParams.enemySpawns.ToArray(), 0.2f);
 
             generateRoom = false;
             progress = GenerationProgress.IDLE;
@@ -269,16 +265,20 @@ public class RoomCreator : MonoBehaviour {
     private bool firstLevel = true;
     public int levelCounter = 0;
     private void LoadFirstLevel() {
+        levelCounter++;
+        
         currentRoom = newRoom;
         currentParams = newParams;
         
         currentRoom.name = "Room";
         currentRoom.localPosition = new Vector3();
+        navMesh.BuildNavMesh();
+        
+        spawner.SpawnEnemies(currentParams.enemySpawns.ToArray(), 1.0f);
         
         Transform player = Instantiate(playerPrefab).transform;
         player.position = newParams.playerSpawn.position;
-
-        levelCounter++;
+        
         firstLevel = false;
         
         GenerateRoom();
@@ -296,10 +296,15 @@ public class RoomCreator : MonoBehaviour {
         currentRoom = newRoom;
         currentParams = newParams;
         currentRoom.name = "Room";
+        
+        levelCounter++;
 
         DeactivateDoor(currentRoom);
         currentRoom.position = new Vector3(origin.position.x, 0.0f, origin.position.z);
         currentRoom.rotation = origin.rotation;
+        navMesh.BuildNavMesh();
+        
+        spawner.SpawnEnemies(currentParams.enemySpawns.ToArray(), 1.0f);
         
         GenerateRoom();
         return true;

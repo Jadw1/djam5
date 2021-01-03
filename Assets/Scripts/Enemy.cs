@@ -68,11 +68,11 @@ public class Enemy : Entity<EnemyStats>
 
         if (IsPlayerInRange() && CanAttack())
         {
-            AttackPlayer();
+            //AttackPlayer();
         }
         else
         {
-            GoToPlayer();
+            //GoToPlayer();
         }
     }
 
