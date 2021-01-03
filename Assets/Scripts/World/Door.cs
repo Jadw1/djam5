@@ -88,10 +88,10 @@ public class Door : MonoBehaviour
     public delegate void CloseEvent(Door door);
     public event OpenEvent OnClose;
 
-    private void LoadLevel()
+    private bool LoadLevel()
     {
         RoomCreator creator = GameObject.FindGameObjectWithTag("RoomCreator").GetComponent<RoomCreator>();
-        creator.LoadNextLevel(transform);
+        return creator.LoadNextLevel(transform);
     }
 
     private void DestroyLevel()
