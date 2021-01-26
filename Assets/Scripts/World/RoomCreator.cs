@@ -306,7 +306,7 @@ public class RoomCreator : MonoBehaviour {
         
         spawner.SpawnEnemies(currentParams.enemySpawns.ToArray(), 0.5f);
         
-        aGenerateRoom();
+        GenerateRoom();
         return true;
     }
 
