@@ -81,8 +81,8 @@ public class Enemy : Entity<EnemyStats>
 
         if (IsPlayerVisible())
         {
-            if (IsPlayerInRange() && CanAttack())
-            {
+            if (IsPlayerInRange() && CanAttack()) {
+                StopMoving();
                 AttackPlayer();
             }
             else
@@ -90,8 +90,16 @@ public class Enemy : Entity<EnemyStats>
                 GoToPlayer();
             }
         }
+        else {
+            StopMoving();
+        }
     }
 
+    private void StopMoving() {
+        _agent.isStopped = true;
+        _agent.ResetPath();
+    }
+    
     private void GoToPlayer() {
         _agent.SetDestination(_player.transform.position);
     }
