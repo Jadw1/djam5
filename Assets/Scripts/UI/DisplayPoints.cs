@@ -17,7 +17,7 @@ namespace UI
             _text = GetComponent<Text>();
         }
 
-        private void FixedUpdate()
+        private void Update()
         {
             var points = PointsManager.Instance.Points;
             

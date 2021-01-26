@@ -171,8 +171,8 @@ MonoBehaviour:
   - {fileID: 8058168970098159294, guid: 639e7bfcbf00e414b8d4a6501c4b5d42, type: 3}
   - {fileID: 7136845345740172491, guid: 694931961635f1f4596d19040427192b, type: 3}
   - {fileID: 1830468267046140986, guid: 533cbf3cb8607584eabd2fe3da08009a, type: 3}
-  minDepth: 3
-  maxDepth: 6
+  minDepth: 4
+  maxDepth: 8
   playerPrefab: {fileID: 5039200380712454358, guid: 76c8170cfa01e886d89c62a668f497f2, type: 3}
   seed: -285129074
   levelCounter: 0
@@ -436,7 +436,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8334053240831915970, guid: 05299bdd375e3804b830e541f5306209, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 05299bdd375e3804b830e541f5306209, type: 3}

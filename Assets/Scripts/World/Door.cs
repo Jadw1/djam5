@@ -114,6 +114,7 @@ public class Door : MonoBehaviour
     private void Update()
     {
         if (_locked && EnemySpawner.Instance.Count == 0)
+        //if (_locked)
         {
             Unlock();
         }

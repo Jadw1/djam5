@@ -36,6 +36,15 @@ public class Enemy : Entity<EnemyStats>
 
         _player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         _cooldown = Time.time;
+
+        _agent.enabled = false;
+        StartCoroutine(Activate());
+    }
+
+    private IEnumerator Activate() {
+        yield return new WaitForSeconds(0.5f);
+        
+        _agent.enabled = true;
     }
 
     private bool IsPlayerInRange()
@@ -74,7 +83,7 @@ public class Enemy : Entity<EnemyStats>
             return;
         }
         
-        if (_stats.health < 0)
+        if (_stats.health < 0 || !_agent.enabled)
         {
             return;
         }

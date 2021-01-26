@@ -38,16 +38,29 @@ public class EnemySpawner : MonoBehaviour {
         rng = new Random(seed);
     }
 
-    public void SpawnEnemies(Transform[] spawnPoints, float probability) {
-        foreach (var point in spawnPoints) {
-            bool spawn = UnityEngine.Random.Range(0.0f, 1.0f) <= probability;
-            if (spawn)
-            {
-                _count++;
-                var enemy = Instantiate(RandEnemy()).transform;
-                enemy.position = point.position;   
-            }
+    public void SpawnEnemies(Transform[] spawnPoints, int level) {
+        ShuffleSpawnPoints(spawnPoints);
+
+        float percentage = (level <= 15) ? ((float) level / 15.0f) : 1.0f;
+        int spawnCount = (int)Mathf.Lerp(1.0f, spawnPoints.Length, percentage);
+        
+        for (int i = 0; i < spawnCount; i++) {
+            _count++;
+            var enemy = Instantiate(RandEnemy()).transform;
+            enemy.position = spawnPoints[i].position;
         }
+    }
+    
+    private void ShuffleSpawnPoints(Transform[] list)  
+    {  
+        int n = list.Length;  
+        while (n > 1) {  
+            n--;  
+            int k = rng.Next(n + 1);  
+            Transform value = list[k];  
+            list[k] = list[n];  
+            list[n] = value;  
+        }  
     }
 
     private Enemy RandEnemy() {
